@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Escolher Área — Bússolab</title>
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body class="page-wizard">
+
+  <header class="navbar">
+    <div class="container navbar__inner">
+      <a href="../home/index.html" class="brand">
+        <svg class="brand__icon" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <circle cx="16" cy="16" r="13" stroke="var(--color-primary)" stroke-width="2.2"/>
+          <polygon points="16,16 21,10 18,17" fill="var(--color-accent)"/>
+          <polygon points="16,16 11,22 14,15" fill="var(--color-primary)"/>
+          <circle cx="16" cy="16" r="1.5" fill="var(--color-surface)"/>
+        </svg>
+        <span class="brand__text">Bússo<span class="brand__text--accent">lab</span></span>
+      </a>
+
+      <a href="../home/index.html" class="btn btn--accent btn--sm btn--pill">Começar</a>
+    </div>
+  </header>
+
+  <main class="wizard-main">
+    <div class="container">
+      <div class="wizard-topbar">
+        <nav class="breadcrumb" aria-label="Caminho">
+          <a href="../home/index.html" class="breadcrumb__item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-9.5z"/>
+            </svg>
+            Início
+          </a>
+          <span class="breadcrumb__sep">›</span>
+          <a href="../tela_escolha_profissao/index.html" class="breadcrumb__item">Desenvolvimento</a>
+          <span class="breadcrumb__sep">›</span>
+          <span class="breadcrumb__current">Escolher área</span>
+        </nav>
+
+        <div class="stepper">
+          <div class="stepper__track">
+            <div class="stepper__step is-completed">
+              <span class="stepper__circle">✓</span>
+              <span class="stepper__label">Escolha de profissão</span>
+            </div>
+            <div class="stepper__line">
+              <div class="stepper__line-fill" style="width: 100%;"></div>
+            </div>
+            <div class="stepper__step is-active">
+              <span class="stepper__circle">2</span>
+              <span class="stepper__label">Sub-áreas</span>
+            </div>
+          </div>
+          <span class="stepper__pill">Passo 2 de 2</span>
+        </div>
+      </div>
+
+      <h1 class="wizard-title">Em qual área de Desenvolvimento?</h1>
+
+      <div class="subarea-grid">
+        <button type="button" class="subarea-card" data-href="../tela_trilha_desenvolvimento_frontend/index.html">
+          <span class="icon-badge icon-badge--lg icon-badge--teal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="8 7 3 12 8 17"/>
+              <polyline points="16 7 21 12 16 17"/>
+              <line x1="14" y1="5" x2="10" y2="19"/>
+            </svg>
+          </span>
+          <div class="subarea-card__content">
+            <h2 class="subarea-card__title">Front-end</h2>
+            <p class="subarea-card__desc">Interfaces e experiências visuais na web.</p>
+            <span class="duration-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="9"/>
+                <polyline points="12 7 12 12 15 14"/>
+              </svg>
+              4 a 6 semanas
+            </span>
+          </div>
+        </button>
+
+        <button type="button" class="subarea-card" data-href="../tela_trilha_desenvolvimento_backend/index.html">
+          <span class="icon-badge icon-badge--lg icon-badge--purple">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="4" y="5" width="16" height="5" rx="1.5"/>
+              <rect x="4" y="14" width="16" height="5" rx="1.5"/>
+              <circle cx="7.5" cy="7.5" r="0.8" fill="currentColor"/>
+              <circle cx="7.5" cy="16.5" r="0.8" fill="currentColor"/>
+            </svg>
+          </span>
+          <div class="subarea-card__content">
+            <h2 class="subarea-card__title">Back-end</h2>
+            <p class="subarea-card__desc">Lógica, servidores, APIs e bancos de dados.</p>
+            <span class="duration-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="9"/>
+                <polyline points="12 7 12 12 15 14"/>
+              </svg>
+              6 a 8 semanas
+            </span>
+          </div>
+        </button>
+
+        <button type="button" class="subarea-card" data-href="../tela_trilha_desenvolvimento_mobile/index.html">
+          <span class="icon-badge icon-badge--lg icon-badge--mint">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="7" y="3" width="10" height="18" rx="2"/>
+              <line x1="11" y1="18" x2="13" y2="18"/>
+            </svg>
+          </span>
+          <div class="subarea-card__content">
+            <h2 class="subarea-card__title">Mobile</h2>
+            <p class="subarea-card__desc">Aplicativos para iOS e Android do zero ao deploy.</p>
+            <span class="duration-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="9"/>
+                <polyline points="12 7 12 12 15 14"/>
+              </svg>
+              6 a 10 semanas
+            </span>
+          </div>
+        </button>
+
+        <button type="button" class="subarea-card" data-href="../tela_trilha_desenvolvimento_fullstack/index.html">
+          <span class="icon-badge icon-badge--lg icon-badge--orange">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 3 21 8 12 13 3 8 12 3"/>
+              <polyline points="3 12 12 17 21 12"/>
+              <polyline points="3 16 12 21 21 16"/>
+            </svg>
+          </span>
+          <div class="subarea-card__content">
+            <h2 class="subarea-card__title">Full-Stack</h2>
+            <p class="subarea-card__desc">Domine o front e o back de ponta a ponta.</p>
+            <span class="duration-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="9"/>
+                <polyline points="12 7 12 12 15 14"/>
+              </svg>
+              8 a 12 semanas
+            </span>
+          </div>
+        </button>
+
+        <button type="button" class="subarea-card" data-href="../tela_trilha_desenvolvimento_dados_ia/index.html">
+          <span class="icon-badge icon-badge--lg icon-badge--blue">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <ellipse cx="12" cy="6" rx="7" ry="3"/>
+              <path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/>
+              <path d="M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/>
+            </svg>
+          </span>
+          <div class="subarea-card__content">
+            <h2 class="subarea-card__title">Dados e IA</h2>
+            <p class="subarea-card__desc">Transforme dados em insights e soluções inteligentes.</p>
+            <span class="duration-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="9"/>
+                <polyline points="12 7 12 12 15 14"/>
+              </svg>
+              6 a 8 semanas
+            </span>
+          </div>
+        </button>
+
+        <button type="button" class="subarea-card" data-href="../tela_trilha_desenvolvimento_jogos/index.html">
+          <span class="icon-badge icon-badge--lg icon-badge--pink">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="8" width="18" height="9" rx="4.5"/>
+              <line x1="8" y1="11" x2="8" y2="14"/>
+              <line x1="6.5" y1="12.5" x2="9.5" y2="12.5"/>
+              <circle cx="15.5" cy="11.5" r="0.8" fill="currentColor"/>
+              <circle cx="17.5" cy="13.5" r="0.8" fill="currentColor"/>
+            </svg>
+          </span>
+          <div class="subarea-card__content">
+            <h2 class="subarea-card__title">Jogos</h2>
+            <p class="subarea-card__desc">Crie experiências interativas em 2D e 3D do zero.</p>
+            <span class="duration-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="9"/>
+                <polyline points="12 7 12 12 15 14"/>
+              </svg>
+              8 a 12 semanas
+            </span>
+          </div>
+        </button>
+      </div>
+
+      <div class="wizard-footer">
+        <a href="../tela_escolha_profissao/index.html" class="btn btn--ghost">← Voltar</a>
+        <a id="next-step-btn" href="#" class="btn btn--accent btn--pill is-disabled" aria-disabled="true">Ver minha trilha →</a>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const subCards = document.querySelectorAll('.subarea-card');
+    const nextBtn = document.getElementById('next-step-btn');
+
+    subCards.forEach((card) => {
+      card.addEventListener('click', () => {
+        subCards.forEach((c) => c.classList.remove('is-selected'));
+        card.classList.add('is-selected');
+
+        const targetUrl = card.dataset.href;
+        if (targetUrl) {
+          nextBtn.href = targetUrl;
+          nextBtn.classList.remove('is-disabled');
+          nextBtn.removeAttribute('aria-disabled');
+        }
+      });
+    });
+
+    nextBtn.addEventListener('click', (event) => {
+      if (!nextBtn.getAttribute('href') || nextBtn.getAttribute('href') === '#') {
+        event.preventDefault();
+        alert('Selecione uma área antes de continuar.');
+      }
+    });
+  </script>
+</body>
+</html>

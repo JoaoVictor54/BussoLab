@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Peça uma Mentoria — Bússolab</title>
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body class="page-wizard">
+
+  <header class="navbar">
+    <div class="container navbar__inner">
+      <a href="../home/index.html" class="brand">
+        <svg class="brand__icon" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <circle cx="16" cy="16" r="13" stroke="var(--color-primary)" stroke-width="2.2"/>
+          <polygon points="16,16 21,10 18,17" fill="var(--color-accent)"/>
+          <polygon points="16,16 11,22 14,15" fill="var(--color-primary)"/>
+          <circle cx="16" cy="16" r="1.5" fill="var(--color-surface)"/>
+        </svg>
+        <span class="brand__text">Bússo<span class="brand__text--accent">lab</span></span>
+      </a>
+
+      <nav class="navbar__nav" aria-label="Menu principal">
+        <a href="../tela_mentorias/index.html" class="navbar__link is-active">Mentoria</a>
+      </nav>
+
+      <div class="user-profile-pill">
+        <span class="user-initials">JV</span>
+        <span>João</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="mentee-request-main">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Navegação estrutural">
+        <a href="../home/index.html" class="breadcrumb__item">Início</a>
+        <span class="breadcrumb__sep">></span>
+        <a href="../tela_mentorias/index.html" class="breadcrumb__item">Mentoria</a>
+        <span class="breadcrumb__sep">></span>
+        <span class="breadcrumb__current">Nova requisição</span>
+      </nav>
+
+      <header class="mentee-request-header">
+        <h1 class="mentee-request-title">Peça uma mentoria</h1>
+        <p class="mentee-request-subtitle">Conte o que você precisa e um mentor da área vai te responder.</p>
+      </header>
+
+      <div class="mentee-request-grid">
+        <!-- Coluna Esquerda: Formulário -->
+        <div>
+          <form class="mentee-form-card" action="../tela_requisicao_enviada/index.html" method="get">
+            <div class="form-group">
+              <label for="req-area" class="form-label form-label--dark">Área desejada</label>
+              <select id="req-area" name="area" class="form-select">
+                <option value="Front-end" selected>Front-end</option>
+                <option value="Back-end">Back-end</option>
+                <option value="UX/UI Design">UX/UI Design</option>
+                <option value="Análise de Dados">Análise de Dados</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <span class="form-label form-label--dark">Sua situação atual</span>
+              <div class="situation-pills" role="radiogroup" aria-label="Sua situação atual">
+                <button type="button" class="situation-pill is-selected">Estudante</button>
+                <button type="button" class="situation-pill">Em transição de carreira</button>
+                <button type="button" class="situation-pill">Recém-formado</button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="req-goal" class="form-label form-label--dark">Qual é o seu objetivo?</label>
+              <input
+                type="text"
+                id="req-goal"
+                name="objetivo"
+                class="form-input form-input--plain"
+                placeholder="Ex.: conseguir meu primeiro estágio em tecnologia"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="req-msg" class="form-label form-label--dark">Escreva sua dúvida ou mensagem para o mentor</label>
+              <div class="textarea-wrapper">
+                <textarea
+                  id="req-msg"
+                  name="mensagem"
+                  class="form-textarea"
+                  maxlength="300"
+                  rows="4"
+                  placeholder="Descreva suas principais dúvidas, o que você já estudou e onde precisa de direção..."
+                  oninput="updateCharCount(this)"
+                ></textarea>
+                <span class="char-counter" id="char-counter">0/300</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <span class="form-label form-label--dark">Como prefere conversar?</span>
+              <div class="channel-grid">
+                <button type="button" class="channel-card is-selected" data-channel="Chat">
+                  <span class="channel-card__icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                      <line x1="8" y1="9" x2="16" y2="9"/>
+                      <line x1="8" y1="13" x2="13" y2="13"/>
+                    </svg>
+                  </span>
+                  <div class="channel-card__text">
+                    <strong>Chat</strong>
+                    <span>Mensagens assíncronas na plataforma</span>
+                  </div>
+                  <span class="channel-card__check" aria-hidden="true">✓</span>
+                </button>
+
+                <button type="button" class="channel-card" data-channel="Videochamada">
+                  <span class="channel-card__icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="2" y="6" width="14" height="12" rx="2"/>
+                      <polygon points="22 8 16 12 22 16 22 8"/>
+                    </svg>
+                  </span>
+                  <div class="channel-card__text">
+                    <strong>Videochamada</strong>
+                    <span>Sessão ao vivo agendada</span>
+                  </div>
+                  <span class="channel-card__check" aria-hidden="true">✓</span>
+                </button>
+              </div>
+              <input type="hidden" name="formato" id="req-channel" value="Chat" />
+            </div>
+
+            <div class="mentee-form-actions">
+              <button type="submit" class="btn btn--accent btn--pill">Enviar requisição</button>
+              <a href="../tela_mentorias/" class="btn-cancel-link">Cancelar</a>
+            </div>
+          </form>
+
+          <p class="mentee-form-footnote">
+            <span class="info-dot">i</span>
+            Um mentor pode aceitar sua requisição. Quando isso acontecer, vocês entram em um chat.
+          </p>
+        </div>
+
+        <!-- Coluna Direita: Suas Requisições -->
+        <aside class="my-requests-card">
+          <h2 class="my-requests-card__title">Suas requisições</h2>
+
+          <div class="my-requests-list">
+            <article class="my-request-item">
+              <div>
+                <h3>Análise de Dados</h3>
+                <time datetime="2026-11-14">14 nov 2026</time>
+              </div>
+              <span class="status-badge status-badge--pending">Em análise</span>
+            </article>
+
+            <article class="my-request-item">
+              <div>
+                <h3>Desenvolvimento Web</h3>
+                <time datetime="2026-11-08">08 nov 2026</time>
+              </div>
+              <span class="status-badge status-badge--accepted">Aceita</span>
+            </article>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    function updateCharCount(textarea) {
+      document.getElementById('char-counter').textContent = `${textarea.value.length}/300`;
+    }
+
+    document.querySelectorAll('.situation-pill').forEach((pill) => {
+      pill.addEventListener('click', () => {
+        document.querySelectorAll('.situation-pill').forEach((p) => p.classList.remove('is-selected'));
+        pill.classList.add('is-selected');
+      });
+    });
+
+    document.querySelectorAll('.channel-card').forEach((card) => {
+      card.addEventListener('click', () => {
+        document.querySelectorAll('.channel-card').forEach((c) => c.classList.remove('is-selected'));
+        card.classList.add('is-selected');
+        document.getElementById('req-channel').value = card.dataset.channel;
+      });
+    });
+  </script>
+</body>
+</html>
