@@ -190,7 +190,10 @@
         </section>
 
         <div class="mentor-form-card__footer">
-          <button type="submit" id="mentor-submit-btn" class="btn btn--accent btn--pill mentor-submit-btn">Cadastrar como mentor</button>
+          <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px;">
+            <button type="submit" id="mentor-submit-btn" class="btn btn--accent btn--pill mentor-submit-btn">Cadastrar como mentor</button>
+            <button type="button" id="mentor-cancel-edit-btn" class="btn btn--outline btn--pill" style="display: none;">Cancelar edição</button>
+          </div>
           <p class="mentor-disclaimer">
             <span class="check-badge" aria-hidden="true">✓</span>
             Seu perfil aparecerá na lista de mentores da comunidade abaixo.
@@ -198,7 +201,7 @@
         </div>
       </form>
 
-      <!-- Seção de Mentores Cadastrados (preparada para GET/DELETE na Fase 2) -->
+      <!-- Seção de Mentores Cadastrados (GET / PATCH / DELETE na API) -->
       <section class="mentors-section">
         <div class="mentors-section__header">
           <h2 class="section-title">Mentores cadastrados</h2>
@@ -231,54 +234,116 @@
   </footer>
 
   <script src="../js/shared.js"></script>
+  <script src="../js/api.js"></script>
   <script>
+    const mentorForm = document.getElementById('mentor-form');
     const fileInput = document.getElementById('mentor-files');
     const dropzone = document.getElementById('upload-dropzone');
     const uploadedList = document.getElementById('uploaded-list');
     const mentorsListEl = document.getElementById('mentors-list');
     const mentorFeedback = document.getElementById('mentor-feedback');
+    const mentorSubmitBtn = document.getElementById('mentor-submit-btn');
+    const cancelEditBtn = document.getElementById('mentor-cancel-edit-btn');
+    const mentorsSearchInput = document.getElementById('mentors-search');
 
-    // Lista de demonstração (Fase 1). Na Fase 2 será substituída por GET/POST/DELETE na API.
-    let demoMentors = [
-      {
-        id: 'mentor-1',
-        nome: 'Carla Mendes',
-        area: 'Desenvolvimento',
-        experiencia: '6 anos',
-        dias: 'Terça e Quinta',
-        horario: 'Noite (18h30 às 22h)'
-      },
-      {
-        id: 'mentor-2',
-        nome: 'Diego Nogueira',
-        area: 'Design',
-        experiencia: '5 anos',
-        dias: 'Segunda, Quarta e Sexta',
-        horario: 'Tarde (13h às 18h)'
-      },
-      {
-        id: 'mentor-3',
-        nome: 'Patrícia Lima',
-        area: 'Análise de Dados',
-        experiencia: '4 anos',
-        dias: 'Horário flexível',
-        horario: 'Noite (18h30 às 22h)'
+    let allMentors = [];
+    let editingMentorId = null;
+
+    function showMentorFeedback(message, type = 'success') {
+      mentorFeedback.textContent = message;
+      mentorFeedback.className = `alert-banner alert-banner--${type} is-visible`;
+    }
+
+    function setSelectValueOrAdd(selectEl, value) {
+      if (!value) {
+        selectEl.selectedIndex = 0;
+        return;
       }
-    ];
+      const match = Array.from(selectEl.options).find((o) => o.value === value);
+      if (match) {
+        selectEl.value = value;
+      } else {
+        const opt = document.createElement('option');
+        opt.value = value;
+        opt.textContent = value;
+        selectEl.appendChild(opt);
+        selectEl.value = value;
+      }
+    }
+
+    function renderUploadedItems(filenames) {
+      uploadedList.innerHTML = '';
+      (filenames || []).forEach((name) => {
+        const li = document.createElement('li');
+        li.className = 'uploaded-item';
+        li.dataset.filename = name;
+        li.innerHTML = `
+          <div class="uploaded-item__info">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/>
+              <polyline points="14 3 14 9 20 9"/>
+            </svg>
+            <span>${escapeHtml(name)} <small>• Anexo simulado</small></span>
+          </div>
+          <button type="button" class="uploaded-item__remove" aria-label="Remover arquivo">✕</button>
+        `;
+        uploadedList.appendChild(li);
+      });
+      bindRemoveButtons();
+    }
+
+    function startEditMentor(mentor) {
+      editingMentorId = mentor.id;
+      document.getElementById('mentor-name').value = mentor.nome || '';
+      setSelectValueOrAdd(document.getElementById('mentor-area'), mentor.area || '');
+      document.getElementById('mentor-exp').value = mentor.experiencia || '';
+      setSelectValueOrAdd(document.getElementById('mentor-days'), mentor.dias || '');
+      setSelectValueOrAdd(document.getElementById('mentor-hours'), mentor.horario || '');
+
+      renderUploadedItems(Array.isArray(mentor.documentosSimulados) ? mentor.documentosSimulados : []);
+
+      mentorSubmitBtn.textContent = 'Salvar alterações';
+      cancelEditBtn.style.display = 'inline-flex';
+      showMentorFeedback(`Editando perfil do mentor "${mentor.nome}". Altere os campos abaixo e clique em Salvar alterações.`, 'info');
+      mentorForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function exitEditMode(clearFeedback = false) {
+      editingMentorId = null;
+      mentorForm.reset();
+      mentorSubmitBtn.textContent = 'Cadastrar como mentor';
+      cancelEditBtn.style.display = 'none';
+      if (clearFeedback) {
+        mentorFeedback.className = 'alert-banner';
+        mentorFeedback.textContent = '';
+      }
+    }
+
+    cancelEditBtn.addEventListener('click', () => exitEditMode(true));
 
     function renderMentors(filter = '') {
       const q = filter.trim().toLowerCase();
-      const filtered = demoMentors.filter((m) =>
-        !q || m.nome.toLowerCase().includes(q) || m.area.toLowerCase().includes(q)
+      const filtered = allMentors.filter((m) =>
+        !q ||
+        (m.nome || '').toLowerCase().includes(q) ||
+        (m.area || '').toLowerCase().includes(q) ||
+        (m.dias || '').toLowerCase().includes(q)
       );
 
       mentorsListEl.innerHTML = '';
+
+      if (!allMentors.length) {
+        mentorsListEl.innerHTML = `<div class="state-box" style="grid-column: 1 / -1;">Nenhum mentor cadastrado ainda. Seja o primeiro usando o formulário acima!</div>`;
+        return;
+      }
+
       if (!filtered.length) {
         mentorsListEl.innerHTML = `<div class="state-box" style="grid-column: 1 / -1;">Nenhum mentor encontrado para essa busca.</div>`;
         return;
       }
 
       filtered.forEach((mentor) => {
+        const docsCount = Array.isArray(mentor.documentosSimulados) ? mentor.documentosSimulados.length : 0;
         const card = document.createElement('article');
         card.className = 'mentor-card';
         card.innerHTML = `
@@ -287,26 +352,58 @@
               <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-3.8 3.1-6.5 7-6.5s7 2.7 7 6.5"/></svg>
             </span>
             <div>
-              <h3>${mentor.nome}</h3>
-              <span class="area-tag area-tag--sm">${mentor.area}</span>
+              <h3>${escapeHtml(mentor.nome || 'Mentor')}</h3>
+              <span class="area-tag area-tag--sm">${escapeHtml(mentor.area || 'Geral')}</span>
             </div>
           </div>
           <div class="mentor-card__details">
-            <span><strong>Experiência:</strong> ${mentor.experiencia}</span>
-            <span><strong>Dias:</strong> ${mentor.dias}</span>
-            <span><strong>Horário:</strong> ${mentor.horario}</span>
+            <span><strong>Experiência:</strong> ${escapeHtml(mentor.experiencia || '—')}</span>
+            <span><strong>Dias:</strong> ${escapeHtml(mentor.dias || '—')}</span>
+            <span><strong>Horário:</strong> ${escapeHtml(mentor.horario || '—')}</span>
+            ${docsCount ? `<span><strong>Anexos (simulado):</strong> ${docsCount} ${docsCount === 1 ? 'documento' : 'documentos'}</span>` : ''}
           </div>
           <div class="mentor-card__footer">
-            <a href="../tela_pedir_mentoria/index.html?area=${encodeURIComponent(mentor.area)}" class="btn btn--accent btn--sm btn--pill">Pedir mentoria</a>
-            <button type="button" class="icon-delete-btn" title="Remover mentor" aria-label="Remover mentor">✕</button>
+            <a href="../tela_pedir_mentoria/index.html?area=${encodeURIComponent(mentor.area || '')}" class="btn btn--accent btn--sm btn--pill">Pedir mentoria</a>
+            <div class="mentor-card__actions">
+              <button type="button" class="icon-edit-btn" title="Editar perfil" aria-label="Editar perfil">✎</button>
+              <button type="button" class="icon-delete-btn" title="Remover mentor" aria-label="Remover mentor">✕</button>
+            </div>
           </div>
         `;
-        card.querySelector('.icon-delete-btn').addEventListener('click', () => {
-          demoMentors = demoMentors.filter((m) => m.id !== mentor.id);
-          renderMentors(document.getElementById('mentors-search').value);
+
+        // PATCH /api/bussolab/mentores/{id} (carrega dados no formulário)
+        card.querySelector('.icon-edit-btn').addEventListener('click', () => {
+          startEditMentor(mentor);
         });
+
+        // DELETE /api/bussolab/mentores/{id}
+        card.querySelector('.icon-delete-btn').addEventListener('click', async () => {
+          if (!confirm(`Deseja remover o cadastro do mentor "${mentor.nome}"?`)) return;
+          try {
+            await apiDelete('mentores', mentor.id);
+            if (String(editingMentorId) === String(mentor.id)) {
+              exitEditMode(false);
+            }
+            showMentorFeedback('Cadastro de mentor removido com sucesso.', 'info');
+            await loadMentors();
+          } catch (err) {
+            showMentorFeedback(`Erro ao remover mentor: ${err.message}`, 'error');
+          }
+        });
+
         mentorsListEl.appendChild(card);
       });
+    }
+
+    // GET /api/bussolab/mentores
+    async function loadMentors() {
+      mentorsListEl.innerHTML = `<div class="state-box" style="grid-column: 1 / -1;">Carregando mentores da API...</div>`;
+      try {
+        allMentors = sortByDateDesc(await apiList('mentores'));
+        renderMentors(mentorsSearchInput.value);
+      } catch (err) {
+        mentorsListEl.innerHTML = `<div class="state-box" style="grid-column: 1 / -1;">Erro ao carregar mentores: ${escapeHtml(err.message)}</div>`;
+      }
     }
 
     function bindRemoveButtons() {
@@ -327,7 +424,7 @@
               <path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/>
               <polyline points="14 3 14 9 20 9"/>
             </svg>
-            <span>${file.name} <small>• ${sizeMB} MB</small></span>
+            <span>${escapeHtml(file.name)} <small>• ${sizeMB} MB</small></span>
           </div>
           <button type="button" class="uploaded-item__remove" aria-label="Remover arquivo">✕</button>
         `;
@@ -358,30 +455,54 @@
       if (e.dataTransfer.files.length) addFiles(e.dataTransfer.files);
     });
 
-    document.getElementById('mentor-form').addEventListener('submit', (e) => {
+    // POST /api/bussolab/mentores ou PATCH /api/bussolab/mentores/{id}
+    mentorForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const novoMentor = {
-        id: 'mentor-' + Date.now(),
+
+      const docs = Array.from(uploadedList.querySelectorAll('.uploaded-item'))
+        .map((li) => li.dataset.filename)
+        .filter(Boolean);
+
+      const payload = {
         nome: document.getElementById('mentor-name').value.trim(),
         area: document.getElementById('mentor-area').value,
         experiencia: document.getElementById('mentor-exp').value.trim(),
         dias: document.getElementById('mentor-days').value,
-        horario: document.getElementById('mentor-hours').value
+        horario: document.getElementById('mentor-hours').value,
+        documentosSimulados: docs
       };
-      demoMentors.unshift(novoMentor);
-      renderMentors(document.getElementById('mentors-search').value);
-      e.target.reset();
 
-      mentorFeedback.textContent = `Mentor "${novoMentor.nome}" adicionado localmente (pronto para integração com a API na próxima etapa).`;
-      mentorFeedback.className = 'alert-banner alert-banner--success is-visible';
+      const isEditing = Boolean(editingMentorId);
+      mentorSubmitBtn.disabled = true;
+      cancelEditBtn.disabled = true;
+      mentorSubmitBtn.textContent = isEditing ? 'Salvando...' : 'Cadastrando...';
+
+      try {
+        if (isEditing) {
+          await apiUpdate('mentores', editingMentorId, payload);
+          exitEditMode(false);
+          showMentorFeedback(`Perfil do mentor "${payload.nome}" atualizado com sucesso!`, 'success');
+        } else {
+          await apiCreate('mentores', payload);
+          mentorForm.reset();
+          showMentorFeedback(`Mentor "${payload.nome}" cadastrado com sucesso na API!`, 'success');
+        }
+        await loadMentors();
+      } catch (err) {
+        showMentorFeedback(`Não foi possível ${isEditing ? 'atualizar' : 'cadastrar'} o mentor: ${err.message}`, 'error');
+      } finally {
+        mentorSubmitBtn.disabled = false;
+        cancelEditBtn.disabled = false;
+        mentorSubmitBtn.textContent = editingMentorId ? 'Salvar alterações' : 'Cadastrar como mentor';
+      }
     });
 
-    document.getElementById('mentors-search').addEventListener('input', (e) => {
+    mentorsSearchInput.addEventListener('input', (e) => {
       renderMentors(e.target.value);
     });
 
     bindRemoveButtons();
-    renderMentors();
+    loadMentors();
   </script>
 </body>
 </html>

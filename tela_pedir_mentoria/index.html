@@ -55,7 +55,7 @@
       <div class="mentee-request-grid">
         <!-- Coluna Esquerda: Formulário -->
         <div>
-          <form class="mentee-form-card" id="mentee-request-form" action="../tela_requisicao_enviada/index.html" method="get">
+          <form class="mentee-form-card" id="mentee-request-form">
             <div class="alert-banner" id="form-feedback" role="status" aria-live="polite"></div>
 
             <div class="form-group">
@@ -177,26 +177,12 @@
           </p>
         </div>
 
-        <!-- Coluna Direita: Suas Requisições (preparado para GET/DELETE na Fase 2) -->
+        <!-- Coluna Direita: Suas Requisições (integrado via GET e DELETE na API) -->
         <aside class="my-requests-card">
           <h2 class="my-requests-card__title">Requisições recentes</h2>
 
           <div class="my-requests-list" id="my-requests-list">
-            <article class="my-request-item">
-              <div>
-                <h3>Análise de Dados &amp; BI</h3>
-                <time datetime="2026-11-14">14 nov 2026</time>
-              </div>
-              <span class="status-badge status-badge--pending">Em análise</span>
-            </article>
-
-            <article class="my-request-item">
-              <div>
-                <h3>Front-end</h3>
-                <time datetime="2026-11-08">08 nov 2026</time>
-              </div>
-              <span class="status-badge status-badge--accepted">Aceita</span>
-            </article>
+            <div class="state-box">Carregando requisições...</div>
           </div>
         </aside>
       </div>
@@ -224,9 +210,26 @@
   </footer>
 
   <script src="../js/shared.js"></script>
+  <script src="../js/api.js"></script>
   <script>
+    const form = document.getElementById('mentee-request-form');
+    const submitBtn = document.getElementById('req-submit-btn');
+    const feedbackEl = document.getElementById('form-feedback');
+    const listEl = document.getElementById('my-requests-list');
+
     function updateCharCount(textarea) {
       document.getElementById('char-counter').textContent = `${textarea.value.length}/300`;
+    }
+
+    function showFeedback(htmlMessage, type = 'success') {
+      feedbackEl.innerHTML = htmlMessage;
+      feedbackEl.className = `alert-banner alert-banner--${type} is-visible`;
+    }
+
+    function getStatusBadgeClass(status) {
+      if (status === 'Aceita') return 'status-badge--accepted';
+      if (status === 'Recusada') return 'status-badge--rejected';
+      return 'status-badge--pending';
     }
 
     // Pré-preenche nome do usuário simulado, se houver
@@ -268,6 +271,101 @@
         document.getElementById('req-channel').value = card.dataset.channel;
       });
     });
+
+    // GET /api/bussolab/requisicoes
+    async function loadRecentRequests() {
+      listEl.innerHTML = `<div class="state-box">Carregando requisições...</div>`;
+      try {
+        const data = sortByDateDesc(await apiList('requisicoes'));
+        if (!data.length) {
+          listEl.innerHTML = `<div class="state-box">Nenhuma requisição cadastrada ainda. Envie a primeira ao lado!</div>`;
+          return;
+        }
+
+        listEl.innerHTML = '';
+        data.slice(0, 8).forEach((item) => {
+          const status = item.status || 'Em análise';
+          const article = document.createElement('article');
+          article.className = 'my-request-item';
+          article.innerHTML = `
+            <div>
+              <h3>${escapeHtml(item.area || 'Mentoria')}</h3>
+              <time datetime="${escapeHtml(item.createdAt || '')}">
+                ${escapeHtml(item.autor || 'Visitante')} • ${escapeHtml(formatShortDate(item.createdAt))}
+              </time>
+            </div>
+            <div class="my-request-item__actions">
+              <span class="status-badge ${getStatusBadgeClass(status)}">${escapeHtml(status)}</span>
+              <button type="button" class="icon-delete-btn" title="Cancelar requisição" aria-label="Cancelar requisição">✕</button>
+            </div>
+          `;
+
+          article.querySelector('.icon-delete-btn').addEventListener('click', async () => {
+            if (!confirm(`Deseja remover a requisição de ${item.area || 'mentoria'}?`)) return;
+            try {
+              await apiDelete('requisicoes', item.id);
+              showFeedback('Requisição removida com sucesso.', 'info');
+              await loadRecentRequests();
+            } catch (err) {
+              showFeedback(escapeHtml(err.message), 'error');
+            }
+          });
+
+          listEl.appendChild(article);
+        });
+      } catch (err) {
+        listEl.innerHTML = `<div class="state-box">Não foi possível carregar as requisições agora. (${escapeHtml(err.message)})</div>`;
+      }
+    }
+
+    // POST /api/bussolab/requisicoes
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const payload = {
+        autor: document.getElementById('req-author').value.trim(),
+        area: document.getElementById('req-area').value,
+        situacao: document.getElementById('req-situation').value || 'Estudante',
+        objetivo: document.getElementById('req-goal').value.trim(),
+        mensagem: document.getElementById('req-msg').value.trim(),
+        formato: document.getElementById('req-channel').value || 'Chat',
+        status: 'Em análise'
+      };
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Enviando...';
+
+      try {
+        await apiCreate('requisicoes', payload);
+
+        const summaryQuery = new URLSearchParams({
+          autor: payload.autor,
+          area: payload.area,
+          situacao: payload.situacao,
+          objetivo: payload.objetivo,
+          formato: payload.formato
+        }).toString();
+
+        showFeedback(
+          `<span>Requisição enviada com sucesso! A lista ao lado já foi atualizada.</span>
+           <a href="../tela_requisicao_enviada/index.html?${summaryQuery}" style="text-decoration: underline; white-space: nowrap;">Ver resumo →</a>`,
+          'success'
+        );
+
+        document.getElementById('req-goal').value = '';
+        document.getElementById('req-msg').value = '';
+        updateCharCount(document.getElementById('req-msg'));
+
+        await loadRecentRequests();
+      } catch (err) {
+        showFeedback(`Não foi possível enviar a requisição: ${escapeHtml(err.message)}`, 'error');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Enviar requisição';
+      }
+    });
+
+    loadRecentRequests();
   </script>
 </body>
 </html>

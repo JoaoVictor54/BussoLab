@@ -64,17 +64,22 @@
           </div>
         </div>
 
-        <div class="chat-role-switch" role="group" aria-label="Enviar mensagem como">
-          <button type="button" class="chat-role-btn is-active" data-role="mentor">Como Mentor</button>
-          <button type="button" class="chat-role-btn" data-role="mentorado">Como Mentorado</button>
+        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+          <div class="chat-role-switch" role="group" aria-label="Enviar mensagem como">
+            <button type="button" class="chat-role-btn is-active" data-role="mentor">Como Mentor</button>
+            <button type="button" class="chat-role-btn" data-role="mentorado">Como Mentorado</button>
+          </div>
+          <button type="button" id="chat-refresh-btn" class="btn btn--ghost btn--sm btn--pill" title="Buscar novas mensagens">↻ Atualizar</button>
         </div>
       </header>
 
-      <div class="chat-messages" id="chat-messages"></div>
+      <div class="chat-messages" id="chat-messages">
+        <div class="state-box">Carregando conversas...</div>
+      </div>
 
       <form class="chat-composer" id="chat-composer">
         <input type="text" id="chat-input" placeholder="Digite sua mensagem..." autocomplete="off" required />
-        <button type="submit" class="chat-send-btn" aria-label="Enviar mensagem">
+        <button type="submit" id="chat-send-btn" class="chat-send-btn" aria-label="Enviar mensagem">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="22" y1="2" x2="11" y2="13"/>
             <polygon points="22 2 15 22 11 13 2 9 22 2"/>
@@ -90,7 +95,7 @@
         <span class="avatar-circle avatar-circle--xl">
           <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-3.8 3.1-6.5 7-6.5s7 2.7 7 6.5"/></svg>
         </span>
-        <h3 id="profile-name">Ana Oliveira</h3>
+        <h3 id="profile-name">—</h3>
       </div>
 
       <hr class="form-divider" />
@@ -100,7 +105,7 @@
           <svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" fill="none" stroke="currentColor" stroke-width="2"/></svg>
           <div>
             <strong>Área de interesse</strong>
-            <span class="area-tag area-tag--sm" id="profile-area">Front-end</span>
+            <span class="area-tag area-tag--sm" id="profile-area">—</span>
           </div>
         </div>
 
@@ -108,7 +113,7 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>
           <div>
             <strong>Objetivo</strong>
-            <p id="profile-goal">Conquistar uma vaga como desenvolvedora júnior.</p>
+            <p id="profile-goal">Selecione uma conversa para ver os detalhes.</p>
           </div>
         </div>
       </div>
@@ -143,126 +148,190 @@
   </footer>
 
   <script src="../js/shared.js"></script>
+  <script src="../js/api.js"></script>
   <script>
-    // Dados de demonstração (Fase 1). Na Fase 2 serão sincronizados com a API (/mensagens + /requisicoes).
-    const demoThreads = [
-      {
-        id: 'demo-1',
-        nome: 'Ana Oliveira',
-        area: 'Front-end',
-        objetivo: 'Conquistar uma vaga como desenvolvedora júnior.',
-        mensagens: [
-          { remetente: 'mentorado', texto: 'Olá! Estou com dificuldade para decidir qual framework aprender primeiro. Você poderia me orientar?', hora: '14:20' },
-          { remetente: 'mentor', texto: 'Oi, Ana! Claro! Antes de escolher um framework, vale consolidar bem HTML, CSS e JavaScript puro.', hora: '14:23' },
-          { remetente: 'mentorado', texto: 'Quero conseguir uma vaga júnior e me sentir mais confiante com projetos reais.', hora: '14:28' },
-          { remetente: 'mentor', texto: 'Ótimo! Recomendo seguir a trilha de Front-end aqui do Bússolab e montar 3 projetos no GitHub.', hora: '14:31' }
-        ]
-      },
-      {
-        id: 'demo-2',
-        nome: 'Lucas Ferreira',
-        area: 'Marketing Digital',
-        objetivo: 'Conseguir a primeira oportunidade em marketing de performance.',
-        mensagens: [
-          { remetente: 'mentorado', texto: 'Oi! Quais certificações gratuitas fazem mais diferença para começar em tráfego pago?', hora: 'Ontem' },
-          { remetente: 'mentor', texto: 'Olá, Lucas! Comece pelas certificações do Google Skillshop e monte um estudo de campanha simulada.', hora: 'Ontem' }
-        ]
-      }
-    ];
-
-    const urlConv = new URLSearchParams(window.location.search).get('conversa');
-    let activeThreadId = demoThreads.some((t) => t.id === urlConv) ? urlConv : demoThreads[0].id;
+    let threads = [];
+    let allMessages = [];
+    let activeThreadId = new URLSearchParams(window.location.search).get('conversa') || null;
     let currentRole = 'mentor';
 
     const threadsEl = document.getElementById('chat-threads');
     const messagesEl = document.getElementById('chat-messages');
+    const chatInput = document.getElementById('chat-input');
+    const chatSendBtn = document.getElementById('chat-send-btn');
+    const chatSearchInput = document.getElementById('chat-search-input');
+    const refreshBtn = document.getElementById('chat-refresh-btn');
+
+    function getMessagesForThread(threadId) {
+      return sortByDateAsc(allMessages.filter((m) => String(m.requisicaoId) === String(threadId)));
+    }
 
     function renderThreads(search = '') {
       const q = search.trim().toLowerCase();
-      const filtered = demoThreads.filter((t) =>
-        !q || t.nome.toLowerCase().includes(q) || t.area.toLowerCase().includes(q)
+      const filtered = threads.filter((t) =>
+        !q ||
+        (t.autor || '').toLowerCase().includes(q) ||
+        (t.area || '').toLowerCase().includes(q)
       );
 
       threadsEl.innerHTML = '';
+
+      if (!threads.length) {
+        threadsEl.innerHTML = `
+          <div class="state-box">
+            Nenhuma conversa disponível ainda.<br />
+            <a href="../tela_pedir_mentoria/index.html" style="color: var(--color-accent); font-weight: 700; display: inline-block; margin-top: 8px;">Pedir mentoria →</a>
+          </div>
+        `;
+        return;
+      }
+
       if (!filtered.length) {
         threadsEl.innerHTML = `<div class="state-box">Nenhuma conversa encontrada.</div>`;
         return;
       }
 
       filtered.forEach((thread) => {
-        const lastMsg = thread.mensagens[thread.mensagens.length - 1];
+        const msgs = getMessagesForThread(thread.id);
+        const lastMsg = msgs[msgs.length - 1];
+        const previewText = lastMsg ? lastMsg.texto : (thread.mensagem || 'Inicie a conversa...');
+        const timeText = lastMsg ? formatTimeHHMM(lastMsg.createdAt) : formatShortDate(thread.createdAt);
+
         const btn = document.createElement('button');
         btn.type = 'button';
-        btn.className = 'thread-item' + (thread.id === activeThreadId ? ' is-active' : '');
+        btn.className = 'thread-item' + (String(thread.id) === String(activeThreadId) ? ' is-active' : '');
         btn.innerHTML = `
           <span class="avatar-circle">
             <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-3.8 3.1-6.5 7-6.5s7 2.7 7 6.5"/></svg>
           </span>
           <div class="thread-item__body">
             <div class="thread-item__top">
-              <strong>${thread.nome}</strong>
-              <span>${lastMsg ? lastMsg.hora : ''}</span>
+              <strong>${escapeHtml(thread.autor || 'Visitante')}</strong>
+              <span>${escapeHtml(timeText)}</span>
             </div>
-            <span class="area-tag area-tag--sm">${thread.area}</span>
-            <p class="thread-item__preview">${lastMsg ? lastMsg.texto : 'Sem mensagens ainda'}</p>
+            <span class="area-tag area-tag--sm">${escapeHtml(thread.area || 'Geral')}</span>
+            <p class="thread-item__preview">${escapeHtml(previewText)}</p>
           </div>
         `;
+
         btn.addEventListener('click', () => {
           activeThreadId = thread.id;
-          renderThreads(document.getElementById('chat-search-input').value);
+          renderThreads(chatSearchInput.value);
           renderActiveConversation();
         });
+
         threadsEl.appendChild(btn);
       });
     }
 
-    function renderActiveConversation() {
-      const thread = demoThreads.find((t) => t.id === activeThreadId) || demoThreads[0];
-      if (!thread) return;
+    function appendMessageBubble(remetente, texto, hora) {
+      const isOutgoing = remetente === 'mentor';
+      const row = document.createElement('div');
+      row.className = 'msg-row ' + (isOutgoing ? 'msg-row--outgoing' : 'msg-row--incoming');
 
-      document.getElementById('chat-active-name').textContent = thread.nome;
-      document.getElementById('chat-active-area').textContent = `Mentoria em ${thread.area}`;
-      document.getElementById('profile-name').textContent = thread.nome;
-      document.getElementById('profile-area').textContent = thread.area;
-      document.getElementById('profile-goal').textContent = thread.objetivo;
+      if (isOutgoing) {
+        row.innerHTML = `
+          <div class="msg-content">
+            <div class="msg-bubble"></div>
+            <span class="msg-time">${escapeHtml(hora)}</span>
+          </div>
+          <span class="mentor-badge-avatar" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none">
+              <circle cx="16" cy="16" r="13" stroke="var(--color-primary)" stroke-width="2"/>
+              <polygon points="16,16 21,10 18,17" fill="var(--color-accent)"/>
+              <polygon points="16,16 11,22 14,15" fill="var(--color-primary)"/>
+            </svg>
+          </span>
+        `;
+      } else {
+        row.innerHTML = `
+          <span class="avatar-circle avatar-circle--sm">
+            <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-3.8 3.1-6.5 7-6.5s7 2.7 7 6.5"/></svg>
+          </span>
+          <div class="msg-content">
+            <div class="msg-bubble"></div>
+            <span class="msg-time">${escapeHtml(hora)}</span>
+          </div>
+        `;
+      }
+
+      row.querySelector('.msg-bubble').textContent = texto;
+      messagesEl.appendChild(row);
+    }
+
+    function renderActiveConversation() {
+      const thread = threads.find((t) => String(t.id) === String(activeThreadId));
+
+      if (!thread) {
+        document.getElementById('chat-active-name').textContent = 'Sem conversa ativa';
+        document.getElementById('chat-active-area').textContent = 'Crie uma requisição para conversar';
+        document.getElementById('profile-name').textContent = '—';
+        document.getElementById('profile-area').textContent = '—';
+        document.getElementById('profile-goal').textContent = 'Nenhuma requisição de mentoria selecionada.';
+        chatInput.disabled = true;
+        chatSendBtn.disabled = true;
+        messagesEl.innerHTML = `
+          <div class="state-box">
+            Envie uma requisição de mentoria para iniciar um chat com um mentor.<br />
+            <a href="../tela_pedir_mentoria/index.html" class="btn btn--accent btn--sm btn--pill" style="margin-top: 12px;">Pedir mentoria</a>
+          </div>
+        `;
+        return;
+      }
+
+      chatInput.disabled = false;
+      chatSendBtn.disabled = false;
+
+      document.getElementById('chat-active-name').textContent = thread.autor || 'Visitante';
+      document.getElementById('chat-active-area').textContent = `Mentoria em ${thread.area || 'Carreira'}`;
+      document.getElementById('profile-name').textContent = thread.autor || 'Visitante';
+      document.getElementById('profile-area').textContent = thread.area || 'Geral';
+      document.getElementById('profile-goal').textContent = thread.objetivo || 'Sem objetivo informado.';
 
       messagesEl.innerHTML = '';
-      thread.mensagens.forEach((msg) => {
-        const isOutgoing = msg.remetente === 'mentor';
-        const row = document.createElement('div');
-        row.className = 'msg-row ' + (isOutgoing ? 'msg-row--outgoing' : 'msg-row--incoming');
 
-        if (isOutgoing) {
-          row.innerHTML = `
-            <div class="msg-content">
-              <div class="msg-bubble"></div>
-              <span class="msg-time">${msg.hora}</span>
-            </div>
-            <span class="mentor-badge-avatar" aria-hidden="true">
-              <svg viewBox="0 0 32 32" fill="none">
-                <circle cx="16" cy="16" r="13" stroke="var(--color-primary)" stroke-width="2"/>
-                <polygon points="16,16 21,10 18,17" fill="var(--color-accent)"/>
-                <polygon points="16,16 11,22 14,15" fill="var(--color-primary)"/>
-              </svg>
-            </span>
-          `;
-        } else {
-          row.innerHTML = `
-            <span class="avatar-circle avatar-circle--sm">
-              <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-3.8 3.1-6.5 7-6.5s7 2.7 7 6.5"/></svg>
-            </span>
-            <div class="msg-content">
-              <div class="msg-bubble"></div>
-              <span class="msg-time">${msg.hora}</span>
-            </div>
-          `;
-        }
+      // Exibe a mensagem inicial da requisição como abertura da conversa
+      if (thread.mensagem) {
+        appendMessageBubble('mentorado', thread.mensagem, formatShortDate(thread.createdAt));
+      }
 
-        row.querySelector('.msg-bubble').textContent = msg.texto;
-        messagesEl.appendChild(row);
+      const msgs = getMessagesForThread(thread.id);
+      msgs.forEach((msg) => {
+        appendMessageBubble(msg.remetente || 'mentor', msg.texto || '', formatTimeHHMM(msg.createdAt) || 'Recente');
       });
 
       messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    // GET /api/bussolab/requisicoes + GET /api/bussolab/mensagens
+    async function loadChatData() {
+      refreshBtn.disabled = true;
+      try {
+        const [reqList, msgList] = await Promise.all([
+          apiList('requisicoes'),
+          apiList('mensagens')
+        ]);
+
+        // Prioriza requisições aceitas primeiro, depois as demais por data mais recente
+        threads = sortByDateDesc(reqList).sort((a, b) => {
+          const aAcc = a.status === 'Aceita' ? 1 : 0;
+          const bAcc = b.status === 'Aceita' ? 1 : 0;
+          return bAcc - aAcc;
+        });
+        allMessages = msgList;
+
+        if (!activeThreadId || !threads.some((t) => String(t.id) === String(activeThreadId))) {
+          activeThreadId = threads[0] ? threads[0].id : null;
+        }
+
+        renderThreads(chatSearchInput.value);
+        renderActiveConversation();
+      } catch (err) {
+        threadsEl.innerHTML = `<div class="state-box">Erro ao carregar conversas.</div>`;
+        messagesEl.innerHTML = `<div class="state-box">Erro ao conectar com a API: ${escapeHtml(err.message)}</div>`;
+      } finally {
+        refreshBtn.disabled = false;
+      }
     }
 
     document.querySelectorAll('.chat-role-btn').forEach((btn) => {
@@ -273,30 +342,39 @@
       });
     });
 
-    document.getElementById('chat-search-input').addEventListener('input', (e) => {
+    chatSearchInput.addEventListener('input', (e) => {
       renderThreads(e.target.value);
     });
 
-    document.getElementById('chat-composer').addEventListener('submit', (e) => {
+    refreshBtn.addEventListener('click', loadChatData);
+
+    // POST /api/bussolab/mensagens
+    document.getElementById('chat-composer').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const input = document.getElementById('chat-input');
-      const texto = input.value.trim();
-      if (!texto) return;
+      const texto = chatInput.value.trim();
+      if (!texto || !activeThreadId) return;
 
-      const thread = demoThreads.find((t) => t.id === activeThreadId);
-      if (!thread) return;
+      chatSendBtn.disabled = true;
+      chatInput.disabled = true;
 
-      const now = new Date();
-      const hora = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
-      thread.mensagens.push({ remetente: currentRole, texto, hora });
-
-      input.value = '';
-      renderActiveConversation();
-      renderThreads(document.getElementById('chat-search-input').value);
+      try {
+        await apiCreate('mensagens', {
+          requisicaoId: activeThreadId,
+          remetente: currentRole,
+          texto
+        });
+        chatInput.value = '';
+        await loadChatData();
+        chatInput.focus();
+      } catch (err) {
+        alert(`Erro ao enviar mensagem: ${err.message}`);
+      } finally {
+        chatSendBtn.disabled = false;
+        chatInput.disabled = false;
+      }
     });
 
-    renderThreads();
-    renderActiveConversation();
+    loadChatData();
   </script>
 </body>
 </html>

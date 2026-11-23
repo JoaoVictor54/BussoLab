@@ -3458,6 +3458,32 @@ button {
   color: var(--color-danger);
 }
 
+.mentor-card__actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.icon-edit-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-primary);
+  font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.icon-edit-btn:hover {
+  background-color: var(--color-accent-soft);
+  border-color: var(--color-accent);
+  color: var(--color-teal-fg);
+}
+
 /* Seção de Mentores Cadastrados */
 .mentors-section {
   margin-top: 40px;
