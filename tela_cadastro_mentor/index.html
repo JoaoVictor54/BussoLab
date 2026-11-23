@@ -10,7 +10,7 @@
 
   <header class="navbar">
     <div class="container navbar__inner">
-      <a href="../home/index.html" class="brand">
+      <a href="../index.html" class="brand">
         <svg class="brand__icon" viewBox="0 0 32 32" fill="none" aria-hidden="true">
           <circle cx="16" cy="16" r="13" stroke="var(--color-primary)" stroke-width="2.2"/>
           <polygon points="16,16 21,10 18,17" fill="var(--color-accent)"/>
@@ -18,6 +18,21 @@
           <circle cx="16" cy="16" r="1.5" fill="var(--color-surface)"/>
         </svg>
         <span class="brand__text">Bússo<span class="brand__text--accent">lab</span></span>
+      </a>
+
+      <nav class="navbar__nav" aria-label="Navegação principal">
+        <a href="../index.html" class="navbar__link">Início</a>
+        <a href="../tela_sobre/index.html" class="navbar__link">Sobre a Solução</a>
+        <a href="../tela_escolha_profissao/index.html" class="navbar__link">Trilhas</a>
+        <a href="../tela_pedir_mentoria/index.html" class="navbar__link">Pedir Mentoria</a>
+        <a href="../tela_mentorias/index.html" class="navbar__link">Mentorias</a>
+        <a href="../tela_cadastro_mentor/index.html" class="navbar__link is-active">Ser Mentor</a>
+        <a href="../tela_mentoria_chat/index.html" class="navbar__link">Chat</a>
+      </nav>
+
+      <a href="../login/index.html" class="user-profile-pill" id="header-user-pill">
+        <span class="user-initials">→</span>
+        <span class="user-name-label">Entrar</span>
       </a>
     </div>
   </header>
@@ -28,19 +43,16 @@
       <div class="banner-header">
         <div>
           <h1 class="banner-header__title">Cadastro de mentor</h1>
-          <p class="banner-header__subtitle">Compartilhe sua experiência com quem está começando.</p>
+          <p class="banner-header__subtitle">Compartilhe sua experiência com quem está começando na carreira.</p>
         </div>
 
         <div class="banner-header__art" aria-hidden="true">
           <svg viewBox="0 0 240 110" fill="none">
             <path d="M20 110 C20 65, 80 35, 130 40 C180 45, 225 70, 225 110 Z" fill="var(--color-bg-shape)"/>
-            <!-- Pessoa Esquerda -->
             <circle cx="72" cy="52" r="12" fill="var(--color-info-soft)"/>
             <path d="M52 96c0-11 9-20 20-20s20 9 20 20" fill="var(--color-info-soft)"/>
-            <!-- Pessoa Direita -->
             <circle cx="168" cy="52" r="12" fill="var(--color-info-soft)"/>
             <path d="M148 96c0-11 9-20 20-20s20 9 20 20" fill="var(--color-info-soft)"/>
-            <!-- Mentor Central -->
             <line x1="106" y1="16" x2="112" y2="24" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round"/>
             <line x1="120" y1="12" x2="120" y2="21" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round"/>
             <line x1="134" y1="16" x2="128" y2="24" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round"/>
@@ -52,7 +64,9 @@
       </div>
 
       <!-- Card do Formulário -->
-      <form class="mentor-form-card" action="../tela_mentorias/index.html" method="get">
+      <form class="mentor-form-card" id="mentor-form">
+        <div class="alert-banner" id="mentor-feedback" role="status" aria-live="polite" style="margin-bottom: 20px;"></div>
+
         <!-- Seção 1: Dados pessoais -->
         <section class="form-section">
           <div class="form-section__header">
@@ -62,36 +76,40 @@
                 <path d="M5 20c0-3.9 3.1-7 7-7s7 3.1 7 7"/>
               </svg>
             </span>
-            <h2>Dados pessoais</h2>
+            <h2>Dados do mentor</h2>
           </div>
 
           <div class="form-grid form-grid--3">
             <div class="form-group">
-              <label for="mentor-name" class="form-label">Nome completo <span class="req">*</span></label>
-              <input type="text" id="mentor-name" class="form-input form-input--plain" placeholder="Digite seu nome completo" required />
+              <label for="mentor-name" class="form-label">Nome ou apelido (fictício) <span class="req">*</span></label>
+              <input type="text" id="mentor-name" name="nome" class="form-input form-input--plain" placeholder="Ex.: Carla Mendes (não use dados reais)" required />
             </div>
 
             <div class="form-group">
               <label for="mentor-area" class="form-label">Área de atuação <span class="req">*</span></label>
-              <select id="mentor-area" class="form-input form-input--plain" required>
+              <select id="mentor-area" name="area" class="form-select" required>
                 <option value="" disabled selected>Selecione sua área de atuação</option>
-                <option value="dev">Desenvolvimento de Software</option>
-                <option value="design">UX/UI Design</option>
-                <option value="dados">Análise de Dados</option>
-                <option value="marketing">Marketing Digital</option>
+                <option value="Desenvolvimento">Desenvolvimento</option>
+                <option value="Design">Design (UX/UI &amp; Gráfico)</option>
+                <option value="Análise de Dados">Análise de Dados</option>
+                <option value="Marketing Digital">Marketing Digital</option>
+                <option value="Gestão de Projetos">Gestão de Projetos</option>
+                <option value="Finanças">Finanças</option>
+                <option value="Redes e Segurança">Redes e Segurança</option>
+                <option value="Produto">Produto</option>
               </select>
             </div>
 
             <div class="form-group">
               <label for="mentor-exp" class="form-label">Tempo de experiência <span class="req">*</span></label>
-              <input type="text" id="mentor-exp" class="form-input form-input--plain" placeholder="Ex: 5 anos" required />
+              <input type="text" id="mentor-exp" name="experiencia" class="form-input form-input--plain" placeholder="Ex.: 5 anos" required />
             </div>
           </div>
         </section>
 
         <hr class="section-divider" />
 
-        <!-- Seção 2: Diplomas e certificações -->
+        <!-- Seção 2: Diplomas e certificações (Simulado no MVP) -->
         <section class="form-section">
           <div class="form-section__header">
             <span class="circle-icon">
@@ -101,6 +119,7 @@
               </svg>
             </span>
             <h2>Diplomas e certificações</h2>
+            <span class="simulated-badge">Simulado no MVP (sem upload real)</span>
           </div>
 
           <label class="upload-dropzone" id="upload-dropzone" for="mentor-files">
@@ -111,29 +130,19 @@
               <polyline points="9 15 12 12 15 15"/>
             </svg>
             <div>
-              <strong>Arraste seus arquivos aqui ou clique para enviar</strong>
-              <span>Formatos aceitos: PDF, JPG, PNG (Tamanho máx. 10MB)</span>
+              <strong>Arraste seus arquivos aqui ou clique para simular anexo</strong>
+              <span>Apenas os nomes dos arquivos são registrados no MVP (sem envio binário).</span>
             </div>
           </label>
 
           <ul class="uploaded-list" id="uploaded-list">
-            <li class="uploaded-item">
+            <li class="uploaded-item" data-filename="Certificado_Pos_Graduacao.pdf">
               <div class="uploaded-item__info">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                   <path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/>
                   <polyline points="14 3 14 9 20 9"/>
                 </svg>
-                <span>Certificado_Pós-Graduação_GestãoProjetos.pdf <small>• 2.4 MB</small></span>
-              </div>
-              <button type="button" class="uploaded-item__remove" aria-label="Remover arquivo">✕</button>
-            </li>
-            <li class="uploaded-item">
-              <div class="uploaded-item__info">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                  <path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/>
-                  <polyline points="14 3 14 9 20 9"/>
-                </svg>
-                <span>Diploma_de_Graduação.pdf <small>• 1.8 MB</small></span>
+                <span>Certificado_Pos_Graduacao.pdf <small>• 2.4 MB</small></span>
               </div>
               <button type="button" class="uploaded-item__remove" aria-label="Remover arquivo">✕</button>
             </li>
@@ -159,42 +168,146 @@
           <div class="form-grid form-grid--2">
             <div class="form-group">
               <label for="mentor-days" class="form-label">Dias da semana <span class="req">*</span></label>
-              <select id="mentor-days" class="form-input form-input--plain" required>
+              <select id="mentor-days" name="dias" class="form-select" required>
                 <option value="" disabled selected>Selecione os dias</option>
-                <option value="seg-qua-sex">Segunda, Quarta e Sexta</option>
-                <option value="ter-qui">Terça e Quinta</option>
-                <option value="fds">Finais de semana (Sábado e Domingo)</option>
-                <option value="flexivel">Horário flexível</option>
+                <option value="Segunda, Quarta e Sexta">Segunda, Quarta e Sexta</option>
+                <option value="Terça e Quinta">Terça e Quinta</option>
+                <option value="Finais de semana">Finais de semana (Sábado e Domingo)</option>
+                <option value="Horário flexível">Horário flexível</option>
               </select>
             </div>
 
             <div class="form-group">
               <label for="mentor-hours" class="form-label">Horário disponível <span class="req">*</span></label>
-              <select id="mentor-hours" class="form-input form-input--plain" required>
+              <select id="mentor-hours" name="horario" class="form-select" required>
                 <option value="" disabled selected>Selecione o horário</option>
-                <option value="manha">Manhã (08h às 12h)</option>
-                <option value="tarde">Tarde (13h às 18h)</option>
-                <option value="noite">Noite (18h30 às 22h)</option>
+                <option value="Manhã (08h às 12h)">Manhã (08h às 12h)</option>
+                <option value="Tarde (13h às 18h)">Tarde (13h às 18h)</option>
+                <option value="Noite (18h30 às 22h)">Noite (18h30 às 22h)</option>
               </select>
             </div>
           </div>
         </section>
 
         <div class="mentor-form-card__footer">
-          <button type="submit" class="btn btn--accent btn--pill mentor-submit-btn">Enviar documento</button>
+          <button type="submit" id="mentor-submit-btn" class="btn btn--accent btn--pill mentor-submit-btn">Cadastrar como mentor</button>
           <p class="mentor-disclaimer">
             <span class="check-badge" aria-hidden="true">✓</span>
-            Seus documentos serão verificados antes da ativação.
+            Seu perfil aparecerá na lista de mentores da comunidade abaixo.
           </p>
         </div>
       </form>
+
+      <!-- Seção de Mentores Cadastrados (preparada para GET/DELETE na Fase 2) -->
+      <section class="mentors-section">
+        <div class="mentors-section__header">
+          <h2 class="section-title">Mentores cadastrados</h2>
+          <input type="search" id="mentors-search" class="requests-search" placeholder="Filtrar mentores por área..." aria-label="Filtrar mentores" />
+        </div>
+
+        <div class="mentors-grid" id="mentors-list"></div>
+      </section>
     </div>
   </main>
 
+  <footer class="footer">
+    <div class="container footer__inner">
+      <span class="footer__brand">
+        <svg width="16" height="16" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <circle cx="16" cy="16" r="13" stroke="currentColor" stroke-width="2.4"/>
+          <polygon points="16,16 21,10 18,17" fill="var(--color-accent)"/>
+        </svg>
+        Bússo<span class="brand__text--accent">lab</span>
+      </span>
+      <span class="footer__divider">|</span>
+      <span>Orientação de carreira e mentorias • MVP</span>
+      <span class="footer__divider">|</span>
+      <div class="footer__socials">
+        <a href="../tela_sobre/index.html" aria-label="Sobre a solução">Sobre</a>
+        <a href="../tela_escolha_profissao/index.html" aria-label="Trilhas">Trilhas</a>
+        <a href="../tela_pedir_mentoria/index.html" aria-label="Mentoria">Mentoria</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/shared.js"></script>
   <script>
     const fileInput = document.getElementById('mentor-files');
     const dropzone = document.getElementById('upload-dropzone');
     const uploadedList = document.getElementById('uploaded-list');
+    const mentorsListEl = document.getElementById('mentors-list');
+    const mentorFeedback = document.getElementById('mentor-feedback');
+
+    // Lista de demonstração (Fase 1). Na Fase 2 será substituída por GET/POST/DELETE na API.
+    let demoMentors = [
+      {
+        id: 'mentor-1',
+        nome: 'Carla Mendes',
+        area: 'Desenvolvimento',
+        experiencia: '6 anos',
+        dias: 'Terça e Quinta',
+        horario: 'Noite (18h30 às 22h)'
+      },
+      {
+        id: 'mentor-2',
+        nome: 'Diego Nogueira',
+        area: 'Design',
+        experiencia: '5 anos',
+        dias: 'Segunda, Quarta e Sexta',
+        horario: 'Tarde (13h às 18h)'
+      },
+      {
+        id: 'mentor-3',
+        nome: 'Patrícia Lima',
+        area: 'Análise de Dados',
+        experiencia: '4 anos',
+        dias: 'Horário flexível',
+        horario: 'Noite (18h30 às 22h)'
+      }
+    ];
+
+    function renderMentors(filter = '') {
+      const q = filter.trim().toLowerCase();
+      const filtered = demoMentors.filter((m) =>
+        !q || m.nome.toLowerCase().includes(q) || m.area.toLowerCase().includes(q)
+      );
+
+      mentorsListEl.innerHTML = '';
+      if (!filtered.length) {
+        mentorsListEl.innerHTML = `<div class="state-box" style="grid-column: 1 / -1;">Nenhum mentor encontrado para essa busca.</div>`;
+        return;
+      }
+
+      filtered.forEach((mentor) => {
+        const card = document.createElement('article');
+        card.className = 'mentor-card';
+        card.innerHTML = `
+          <div class="mentor-card__top">
+            <span class="avatar-circle">
+              <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-3.8 3.1-6.5 7-6.5s7 2.7 7 6.5"/></svg>
+            </span>
+            <div>
+              <h3>${mentor.nome}</h3>
+              <span class="area-tag area-tag--sm">${mentor.area}</span>
+            </div>
+          </div>
+          <div class="mentor-card__details">
+            <span><strong>Experiência:</strong> ${mentor.experiencia}</span>
+            <span><strong>Dias:</strong> ${mentor.dias}</span>
+            <span><strong>Horário:</strong> ${mentor.horario}</span>
+          </div>
+          <div class="mentor-card__footer">
+            <a href="../tela_pedir_mentoria/index.html?area=${encodeURIComponent(mentor.area)}" class="btn btn--accent btn--sm btn--pill">Pedir mentoria</a>
+            <button type="button" class="icon-delete-btn" title="Remover mentor" aria-label="Remover mentor">✕</button>
+          </div>
+        `;
+        card.querySelector('.icon-delete-btn').addEventListener('click', () => {
+          demoMentors = demoMentors.filter((m) => m.id !== mentor.id);
+          renderMentors(document.getElementById('mentors-search').value);
+        });
+        mentorsListEl.appendChild(card);
+      });
+    }
 
     function bindRemoveButtons() {
       uploadedList.querySelectorAll('.uploaded-item__remove').forEach((btn) => {
@@ -207,6 +320,7 @@
         const sizeMB = (file.size / (1024 * 1024)).toFixed(1);
         const li = document.createElement('li');
         li.className = 'uploaded-item';
+        li.dataset.filename = file.name;
         li.innerHTML = `
           <div class="uploaded-item__info">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
@@ -244,7 +358,30 @@
       if (e.dataTransfer.files.length) addFiles(e.dataTransfer.files);
     });
 
+    document.getElementById('mentor-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const novoMentor = {
+        id: 'mentor-' + Date.now(),
+        nome: document.getElementById('mentor-name').value.trim(),
+        area: document.getElementById('mentor-area').value,
+        experiencia: document.getElementById('mentor-exp').value.trim(),
+        dias: document.getElementById('mentor-days').value,
+        horario: document.getElementById('mentor-hours').value
+      };
+      demoMentors.unshift(novoMentor);
+      renderMentors(document.getElementById('mentors-search').value);
+      e.target.reset();
+
+      mentorFeedback.textContent = `Mentor "${novoMentor.nome}" adicionado localmente (pronto para integração com a API na próxima etapa).`;
+      mentorFeedback.className = 'alert-banner alert-banner--success is-visible';
+    });
+
+    document.getElementById('mentors-search').addEventListener('input', (e) => {
+      renderMentors(e.target.value);
+    });
+
     bindRemoveButtons();
+    renderMentors();
   </script>
 </body>
 </html>

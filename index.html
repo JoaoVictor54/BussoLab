@@ -3,99 +3,211 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login — Bússolab</title>
+  <title>Bússolab — Descubra seu próximo passo na carreira</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body class="page-login">
+<body class="page-home">
 
-  <div class="login-bg" aria-hidden="true">
-    <div class="login-bg__oval"></div>
-
-    <svg class="login-bg__compass" viewBox="0 0 260 260" fill="none">
-      <line x1="62" y1="35" x2="76" y2="58" stroke="var(--color-accent-light)" stroke-width="5" stroke-linecap="round"/>
-      <line x1="92" y1="20" x2="100" y2="46" stroke="var(--color-accent-light)" stroke-width="5" stroke-linecap="round"/>
-      <line x1="36" y1="60" x2="58" y2="76" stroke="var(--color-accent-light)" stroke-width="5" stroke-linecap="round"/>
-      <circle cx="130" cy="145" r="88" stroke="var(--color-bg-shape-dark)" stroke-width="14"/>
-      <circle cx="130" cy="145" r="72" stroke="var(--color-bg-shape-dark)" stroke-width="2" stroke-dasharray="4 14"/>
-      <polygon points="130,145 168,92 145,152" fill="var(--color-accent-light)"/>
-      <polygon points="130,145 96,204 115,138" fill="var(--color-bg-shape-dark)"/>
-      <circle cx="130" cy="145" r="10" fill="var(--color-bg-page)"/>
-    </svg>
-
-    <svg class="login-bg__mountain" viewBox="0 0 260 240" fill="none">
-      <path d="M90 230 C110 190, 175 180, 155 145 C140 120, 165 110, 175 100" stroke="var(--color-bg-page)" stroke-width="26" stroke-linecap="round"/>
-      <polygon points="175,35 120,105 230,105" fill="var(--color-bg-shape-dark)"/>
-      <polygon points="175,35 156,62 170,57 177,64 185,56 196,62" fill="var(--color-surface)"/>
-      <line x1="175" y1="12" x2="175" y2="35" stroke="var(--color-bg-shape-dark)" stroke-width="3"/>
-      <rect x="175" y="12" width="22" height="13" rx="2" fill="var(--color-accent-light)"/>
-    </svg>
-  </div>
-
-  <main class="login-card">
-    <a href="home/index.html" class="brand brand--centered">
-      <svg class="brand__icon" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-        <circle cx="16" cy="16" r="13" stroke="var(--color-primary)" stroke-width="2.2"/>
-        <polygon points="16,16 21,10 18,17" fill="var(--color-accent)"/>
-        <polygon points="16,16 11,22 14,15" fill="var(--color-primary)"/>
-        <circle cx="16" cy="16" r="1.5" fill="var(--color-surface)"/>
-      </svg>
-      <span class="brand__text">Bússo<span class="brand__text--accent">lab</span></span>
-    </a>
-
-    <h1 class="login-card__title">Seja Bem-Vindo</h1>
-    <p class="login-card__subtitle">Entre para continuar sua trilha</p>
-
-    <form class="login-form" action="home/index.html" method="get">
-      <div class="form-group">
-        <label for="email" class="form-label">E-mail</label>
-        <div class="input-wrapper">
-          <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-            <rect x="3" y="5" width="18" height="14" rx="2"/>
-            <path d="M3 7l9 6 9-6"/>
-          </svg>
-          <input type="email" id="email" class="form-input" placeholder="seu@email.com" required />
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="password" class="form-label form-label--inline">
-          <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="5" y="11" width="14" height="10" rx="2"/>
-            <path d="M8 11V7a4 4 0 0 1 8 0v4"/>
-          </svg>
-          Senha
-        </label>
-        <div class="input-wrapper">
-          <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-            <rect x="5" y="11" width="14" height="10" rx="2"/>
-            <path d="M8 11V7a4 4 0 0 1 8 0v4"/>
-          </svg>
-          <input type="password" id="password" class="form-input" placeholder="Digite sua senha" required />
-          <button type="button" class="input-action" aria-label="Mostrar senha" onclick="togglePassword()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-              <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z"/>
-              <circle cx="12" cy="12" r="3"/>
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      <button type="submit" class="btn btn--primary btn--full btn--pill">
-        Entrar
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-          <path d="M5 12h14M13 6l6 6-6 6"/>
+  <header class="navbar">
+    <div class="container navbar__inner">
+      <a href="index.html" class="brand">
+        <svg class="brand__icon" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <circle cx="16" cy="16" r="13" stroke="var(--color-primary)" stroke-width="2.2"/>
+          <polygon points="16,16 21,10 18,17" fill="var(--color-accent)"/>
+          <polygon points="16,16 11,22 14,15" fill="var(--color-primary)"/>
+          <circle cx="16" cy="16" r="1.5" fill="var(--color-surface)"/>
         </svg>
-      </button>
-    </form>
+        <span class="brand__text">Bússo<span class="brand__text--accent">lab</span></span>
+      </a>
 
-    <div class="login-card__divider" aria-hidden="true"></div>
+      <nav class="navbar__nav" aria-label="Navegação principal">
+        <a href="index.html" class="navbar__link is-active">Início</a>
+        <a href="tela_sobre/index.html" class="navbar__link">Sobre a Solução</a>
+        <a href="tela_escolha_profissao/index.html" class="navbar__link">Trilhas</a>
+        <a href="tela_pedir_mentoria/index.html" class="navbar__link">Pedir Mentoria</a>
+        <a href="tela_mentorias/index.html" class="navbar__link">Mentorias</a>
+        <a href="tela_cadastro_mentor/index.html" class="navbar__link">Ser Mentor</a>
+        <a href="tela_mentoria_chat/index.html" class="navbar__link">Chat</a>
+      </nav>
+
+      <a href="login/index.html" class="user-profile-pill" id="header-user-pill">
+        <span class="user-initials">→</span>
+        <span class="user-name-label">Entrar</span>
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero__grid">
+        <div class="hero__content">
+          <h1 class="hero__title">Perdido na carreira?<br>Descubra seu próximo passo.</h1>
+          <p class="hero__subtitle">Trilhas curtas e claras, focadas no que o mercado pede hoje — com apoio de mentores voluntários.</p>
+          <div class="hero__actions">
+            <a href="tela_escolha_profissao/index.html" class="btn btn--accent btn--pill">Já sei minha área</a>
+            <a href="tela_de_quiz/index.html" class="btn btn--outline btn--pill">Estou em dúvida</a>
+          </div>
+        </div>
+
+        <div class="hero__illustration" aria-hidden="true">
+          <svg viewBox="0 0 420 260" fill="none">
+            <ellipse cx="225" cy="145" rx="175" ry="95" fill="var(--color-bg-shape)" />
+            <polygon points="135,85 210,70 210,210 135,225" fill="var(--color-surface)"/>
+            <polygon points="210,70 285,85 285,225 210,210" fill="var(--color-bg-soft)"/>
+            <polygon points="285,85 360,70 360,210 285,225" fill="var(--color-surface)"/>
+            <polygon points="168,125 156,148 180,148" fill="var(--color-info-soft)"/>
+            <polygon points="325,135 312,168 338,168" fill="var(--color-accent)"/>
+            <line x1="325" y1="168" x2="325" y2="178" stroke="var(--color-primary)" stroke-width="3"/>
+            <polygon points="278,55 232,122 324,122" fill="var(--color-primary)"/>
+            <polygon points="278,55 260,82 272,77 279,84 287,76 296,82" fill="var(--color-surface)"/>
+            <line x1="278" y1="32" x2="278" y2="55" stroke="var(--color-primary)" stroke-width="3"/>
+            <rect x="278" y="32" width="22" height="13" rx="2" fill="var(--color-accent)"/>
+            <path d="M165 195 C200 205, 225 185, 232 155 C238 130, 265 130, 275 118" stroke="var(--color-primary)" stroke-width="3" stroke-dasharray="6 6" stroke-linecap="round"/>
+            <line x1="65" y1="52" x2="80" y2="70" stroke="var(--color-accent)" stroke-width="3.5" stroke-linecap="round"/>
+            <line x1="88" y1="40" x2="96" y2="60" stroke="var(--color-accent)" stroke-width="3.5" stroke-linecap="round"/>
+            <line x1="48" y1="72" x2="66" y2="84" stroke="var(--color-accent)" stroke-width="3.5" stroke-linecap="round"/>
+            <rect x="112" y="54" width="20" height="12" rx="3" fill="var(--color-primary)"/>
+            <circle cx="122" cy="135" r="72" fill="var(--color-primary)"/>
+            <circle cx="122" cy="135" r="56" fill="var(--color-surface)"/>
+            <polygon points="122,135 152,95 133,142" fill="var(--color-accent)"/>
+            <polygon points="122,135 95,176 111,129" fill="var(--color-primary)"/>
+            <circle cx="122" cy="135" r="6" fill="var(--color-surface)" stroke="var(--color-primary)" stroke-width="2"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <section class="how-it-works">
+      <div class="container">
+        <h2 class="section-title">Como funciona</h2>
+
+        <div class="steps-row">
+          <article class="step-card">
+            <span class="step-badge">1</span>
+            <div class="step-card__icon">
+              <svg viewBox="0 0 48 48" fill="none">
+                <circle cx="22" cy="26" r="14" stroke="var(--color-primary)" stroke-width="2.2"/>
+                <circle cx="22" cy="26" r="8" stroke="var(--color-primary)" stroke-width="2.2"/>
+                <circle cx="22" cy="26" r="2.5" fill="var(--color-accent)"/>
+                <path d="M22 26L36 12M31 12h5v5" stroke="var(--color-accent)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="step-card__body">
+              <h3>Escolha sua área</h3>
+              <p>Defina o que te interessa entre 8 áreas ou responda ao quiz de afinidade.</p>
+            </div>
+          </article>
+
+          <div class="steps-arrow" aria-hidden="true">→</div>
+
+          <article class="step-card">
+            <span class="step-badge">2</span>
+            <div class="step-card__icon">
+              <svg viewBox="0 0 48 48" fill="none">
+                <rect x="11" y="8" width="26" height="32" rx="3" stroke="var(--color-primary)" stroke-width="2.2"/>
+                <line x1="17" y1="17" x2="31" y2="17" stroke="var(--color-accent)" stroke-width="2.4" stroke-linecap="round"/>
+                <line x1="17" y1="24" x2="31" y2="24" stroke="var(--color-primary)" stroke-width="2.2" stroke-linecap="round"/>
+                <line x1="17" y1="31" x2="25" y2="31" stroke="var(--color-primary)" stroke-width="2.2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="step-card__body">
+              <h3>Receba sua trilha</h3>
+              <p>Veja um plano de estudos curto, com os principais conhecimentos para sua área.</p>
+            </div>
+          </article>
+
+          <div class="steps-arrow" aria-hidden="true">→</div>
+
+          <article class="step-card">
+            <span class="step-badge">3</span>
+            <div class="step-card__icon">
+              <svg viewBox="0 0 48 48" fill="none">
+                <rect x="11" y="28" width="6" height="11" rx="1.5" stroke="var(--color-primary)" stroke-width="2.2"/>
+                <rect x="21" y="22" width="6" height="17" rx="1.5" stroke="var(--color-primary)" stroke-width="2.2"/>
+                <rect x="31" y="16" width="6" height="23" rx="1.5" stroke="var(--color-primary)" stroke-width="2.2"/>
+                <path d="M12 22L23 15L35 9M30 9h5v5" stroke="var(--color-accent)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="step-card__body">
+              <h3>Avance com mentoria</h3>
+              <p>Acompanhe seu progresso, solicite mentoria gratuita e converse com profissionais.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="about-teaser" id="sobre-solucao">
+      <div class="container">
+        <div class="about-teaser__header">
+          <div>
+            <h2 class="section-title">Sobre a Solução</h2>
+            <p class="about-teaser__subtitle">
+              O Bússolab combate a falta de direção profissional conectando trilhas objetivas de aprendizagem a mentorias acessíveis.
+            </p>
+          </div>
+          <a href="tela_sobre/index.html" class="btn btn--outline btn--pill btn--sm">Ver detalhes completos →</a>
+        </div>
+
+        <div class="about-teaser__grid">
+          <article class="about-card">
+            <span class="icon-badge icon-badge--teal">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="9"/>
+                <polygon points="16 8 14 14 8 16 10 10 16 8"/>
+              </svg>
+            </span>
+            <h3>O Problema</h3>
+            <p>Jovens e profissionais em transição enfrentam excesso de conteúdo disperso e pouca orientação prática sobre qual área escolher e o que estudar primeiro.</p>
+          </article>
+
+          <article class="about-card">
+            <span class="icon-badge icon-badge--blue">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2l3 7h7l-5.5 4.2L18.5 21 12 16.8 5.5 21l2-7.8L2 9h7l3-7z"/>
+              </svg>
+            </span>
+            <h3>ODS Impactadas</h3>
+            <p><strong>ODS 4</strong> (Educação de Qualidade), <strong>ODS 8</strong> (Trabalho Decente e Crescimento Econômico) e <strong>ODS 10</strong> (Redução das Desigualdades).</p>
+          </article>
+
+          <article class="about-card">
+            <span class="icon-badge icon-badge--purple">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="9" cy="8" r="3.5"/>
+                <path d="M3 19c0-3.3 2.7-6 6-6s6 2.7 6 6"/>
+                <circle cx="17" cy="9" r="2.5"/>
+                <path d="M16 19c0-2.2 1.6-4 3.5-4.3"/>
+              </svg>
+            </span>
+            <h3>Público-Alvo</h3>
+            <p>Estudantes em busca do primeiro estágio, recém-formados, pessoas em transição de carreira e profissionais dispostos a atuar como mentores.</p>
+          </article>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <script>
-    function togglePassword() {
-      const input = document.getElementById('password');
-      input.type = input.type === 'password' ? 'text' : 'password';
-    }
-  </script>
+  <footer class="footer">
+    <div class="container footer__inner">
+      <span class="footer__brand">
+        <svg width="16" height="16" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <circle cx="16" cy="16" r="13" stroke="currentColor" stroke-width="2.4"/>
+          <polygon points="16,16 21,10 18,17" fill="var(--color-accent)"/>
+        </svg>
+        Bússo<span class="brand__text--accent">lab</span>
+      </span>
+      <span class="footer__divider">|</span>
+      <span>Orientação de carreira e mentorias • MVP</span>
+      <span class="footer__divider">|</span>
+      <div class="footer__socials">
+        <a href="tela_sobre/index.html" aria-label="Sobre a solução">Sobre</a>
+        <a href="tela_escolha_profissao/index.html" aria-label="Trilhas">Trilhas</a>
+        <a href="tela_pedir_mentoria/index.html" aria-label="Mentoria">Mentoria</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/shared.js"></script>
 </body>
 </html>

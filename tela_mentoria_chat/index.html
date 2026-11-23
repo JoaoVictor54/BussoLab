@@ -10,7 +10,7 @@
 
   <header class="navbar">
     <div class="container navbar__inner">
-      <a href="../tela_mentorias/index.html" class="brand">
+      <a href="../index.html" class="brand">
         <svg class="brand__icon" viewBox="0 0 32 32" fill="none" aria-hidden="true">
           <circle cx="16" cy="16" r="13" stroke="var(--color-primary)" stroke-width="2.2"/>
           <polygon points="16,16 21,10 18,17" fill="var(--color-accent)"/>
@@ -18,6 +18,21 @@
           <circle cx="16" cy="16" r="1.5" fill="var(--color-surface)"/>
         </svg>
         <span class="brand__text">Bússo<span class="brand__text--accent">lab</span></span>
+      </a>
+
+      <nav class="navbar__nav" aria-label="Navegação principal">
+        <a href="../index.html" class="navbar__link">Início</a>
+        <a href="../tela_sobre/index.html" class="navbar__link">Sobre a Solução</a>
+        <a href="../tela_escolha_profissao/index.html" class="navbar__link">Trilhas</a>
+        <a href="../tela_pedir_mentoria/index.html" class="navbar__link">Pedir Mentoria</a>
+        <a href="../tela_mentorias/index.html" class="navbar__link">Mentorias</a>
+        <a href="../tela_cadastro_mentor/index.html" class="navbar__link">Ser Mentor</a>
+        <a href="../tela_mentoria_chat/index.html" class="navbar__link is-active">Chat</a>
+      </nav>
+
+      <a href="../login/index.html" class="user-profile-pill" id="header-user-pill">
+        <span class="user-initials">→</span>
+        <span class="user-name-label">Entrar</span>
       </a>
     </div>
   </header>
@@ -31,39 +46,10 @@
           <circle cx="11" cy="11" r="7"/>
           <line x1="20" y1="20" x2="16.2" y2="16.2"/>
         </svg>
-        <input type="search" placeholder="Buscar conversa..." aria-label="Buscar conversa" />
+        <input type="search" id="chat-search-input" placeholder="Buscar conversa..." aria-label="Buscar conversa" />
       </div>
 
-      <div class="chat-threads">
-        <button type="button" class="thread-item is-active">
-          <span class="avatar-circle">
-            <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-3.8 3.1-6.5 7-6.5s7 2.7 7 6.5"/></svg>
-          </span>
-          <div class="thread-item__body">
-            <div class="thread-item__top">
-              <strong>Ana Oliveira</strong>
-              <span>14:32</span>
-            </div>
-            <span class="area-tag area-tag--sm">Mentoria em Front-end</span>
-            <p class="thread-item__preview">Obrigada pelas dicas! Vou ...</p>
-          </div>
-          <span class="unread-badge">1</span>
-        </button>
-
-        <button type="button" class="thread-item">
-          <span class="avatar-circle">
-            <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-3.8 3.1-6.5 7-6.5s7 2.7 7 6.5"/></svg>
-          </span>
-          <div class="thread-item__body">
-            <div class="thread-item__top">
-              <strong>Lucas Ferreira</strong>
-              <span>Ontem</span>
-            </div>
-            <span class="area-tag area-tag--sm">Marketing</span>
-            <p class="thread-item__preview">Perfeito! Vou revisar os ...</p>
-          </div>
-        </button>
-      </div>
+      <div class="chat-threads" id="chat-threads"></div>
     </aside>
 
     <section class="chat-conversation">
@@ -73,79 +59,21 @@
             <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-3.8 3.1-6.5 7-6.5s7 2.7 7 6.5"/></svg>
           </span>
           <div>
-            <h2>Ana Oliveira</h2>
-            <span class="area-tag area-tag--sm">Mentoria em Front-end</span>
+            <h2 id="chat-active-name">Ana Oliveira</h2>
+            <span class="area-tag area-tag--sm" id="chat-active-area">Mentoria em Front-end</span>
           </div>
         </div>
 
-        <button type="button" class="chat-menu-btn" aria-label="Mais opções">⋮</button>
+        <div class="chat-role-switch" role="group" aria-label="Enviar mensagem como">
+          <button type="button" class="chat-role-btn is-active" data-role="mentor">Como Mentor</button>
+          <button type="button" class="chat-role-btn" data-role="mentorado">Como Mentorado</button>
+        </div>
       </header>
 
-      <div class="chat-messages" id="chat-messages">
-        <div class="msg-row msg-row--incoming">
-          <span class="avatar-circle avatar-circle--sm">
-            <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-3.8 3.1-6.5 7-6.5s7 2.7 7 6.5"/></svg>
-          </span>
-          <div class="msg-content">
-            <div class="msg-bubble">
-              Olá! Estou com dificuldade para decidir qual framework aprender primeiro. Você poderia me orientar?
-            </div>
-            <span class="msg-time">14:20</span>
-          </div>
-        </div>
+      <div class="chat-messages" id="chat-messages"></div>
 
-        <div class="msg-row msg-row--outgoing">
-          <div class="msg-content">
-            <div class="msg-bubble">
-              Oi, Ana! Claro! Posso te ajudar. Qual é seu objetivo com o desenvolvimento front-end?
-            </div>
-            <span class="msg-time">14:23</span>
-          </div>
-          <span class="mentor-badge-avatar" aria-hidden="true">
-            <svg viewBox="0 0 32 32" fill="none">
-              <circle cx="16" cy="16" r="13" stroke="var(--color-primary)" stroke-width="2"/>
-              <polygon points="16,16 21,10 18,17" fill="var(--color-accent)"/>
-              <polygon points="16,16 11,22 14,15" fill="var(--color-primary)"/>
-            </svg>
-          </span>
-        </div>
-
-        <div class="msg-row msg-row--incoming">
-          <span class="avatar-circle avatar-circle--sm">
-            <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-3.8 3.1-6.5 7-6.5s7 2.7 7 6.5"/></svg>
-          </span>
-          <div class="msg-content">
-            <div class="msg-bubble">
-              Quero conseguir uma vaga júnior e me sentir mais confiante com React.
-            </div>
-            <span class="msg-time">14:28</span>
-          </div>
-        </div>
-
-        <div class="msg-row msg-row--outgoing">
-          <div class="msg-content">
-            <div class="msg-bubble">
-              Ótimo! Vou te enviar um plano de estudos com os principais conteúdos de React e algumas ideias de projetos práticos.
-            </div>
-            <span class="msg-time">14:31</span>
-          </div>
-          <span class="mentor-badge-avatar" aria-hidden="true">
-            <svg viewBox="0 0 32 32" fill="none">
-              <circle cx="16" cy="16" r="13" stroke="var(--color-primary)" stroke-width="2"/>
-              <polygon points="16,16 21,10 18,17" fill="var(--color-accent)"/>
-              <polygon points="16,16 11,22 14,15" fill="var(--color-primary)"/>
-            </svg>
-          </span>
-        </div>
-      </div>
-
-      <form class="chat-composer" onsubmit="sendMessage(event)">
-        <button type="button" class="chat-attach-btn" aria-label="Anexar arquivo">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
-          </svg>
-        </button>
-        <input type="text" id="chat-input" placeholder="Digite sua mensagem..." autocomplete="off" />
+      <form class="chat-composer" id="chat-composer">
+        <input type="text" id="chat-input" placeholder="Digite sua mensagem..." autocomplete="off" required />
         <button type="submit" class="chat-send-btn" aria-label="Enviar mensagem">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="22" y1="2" x2="11" y2="13"/>
@@ -162,7 +90,7 @@
         <span class="avatar-circle avatar-circle--xl">
           <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-3.8 3.1-6.5 7-6.5s7 2.7 7 6.5"/></svg>
         </span>
-        <h3>Ana Oliveira</h3>
+        <h3 id="profile-name">Ana Oliveira</h3>
       </div>
 
       <hr class="form-divider" />
@@ -172,7 +100,7 @@
           <svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" fill="none" stroke="currentColor" stroke-width="2"/></svg>
           <div>
             <strong>Área de interesse</strong>
-            <span class="area-tag area-tag--sm">Tecnologia</span>
+            <span class="area-tag area-tag--sm" id="profile-area">Front-end</span>
           </div>
         </div>
 
@@ -180,7 +108,7 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>
           <div>
             <strong>Objetivo</strong>
-            <p>Conquistar uma vaga como desenvolvedora júnior.</p>
+            <p id="profile-goal">Conquistar uma vaga como desenvolvedora júnior.</p>
           </div>
         </div>
       </div>
@@ -194,37 +122,181 @@
     </aside>
   </main>
 
+  <footer class="footer">
+    <div class="container footer__inner">
+      <span class="footer__brand">
+        <svg width="16" height="16" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <circle cx="16" cy="16" r="13" stroke="currentColor" stroke-width="2.4"/>
+          <polygon points="16,16 21,10 18,17" fill="var(--color-accent)"/>
+        </svg>
+        Bússo<span class="brand__text--accent">lab</span>
+      </span>
+      <span class="footer__divider">|</span>
+      <span>Orientação de carreira e mentorias • MVP</span>
+      <span class="footer__divider">|</span>
+      <div class="footer__socials">
+        <a href="../tela_sobre/index.html" aria-label="Sobre a solução">Sobre</a>
+        <a href="../tela_escolha_profissao/index.html" aria-label="Trilhas">Trilhas</a>
+        <a href="../tela_pedir_mentoria/index.html" aria-label="Mentoria">Mentoria</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/shared.js"></script>
   <script>
-    function sendMessage(e) {
+    // Dados de demonstração (Fase 1). Na Fase 2 serão sincronizados com a API (/mensagens + /requisicoes).
+    const demoThreads = [
+      {
+        id: 'demo-1',
+        nome: 'Ana Oliveira',
+        area: 'Front-end',
+        objetivo: 'Conquistar uma vaga como desenvolvedora júnior.',
+        mensagens: [
+          { remetente: 'mentorado', texto: 'Olá! Estou com dificuldade para decidir qual framework aprender primeiro. Você poderia me orientar?', hora: '14:20' },
+          { remetente: 'mentor', texto: 'Oi, Ana! Claro! Antes de escolher um framework, vale consolidar bem HTML, CSS e JavaScript puro.', hora: '14:23' },
+          { remetente: 'mentorado', texto: 'Quero conseguir uma vaga júnior e me sentir mais confiante com projetos reais.', hora: '14:28' },
+          { remetente: 'mentor', texto: 'Ótimo! Recomendo seguir a trilha de Front-end aqui do Bússolab e montar 3 projetos no GitHub.', hora: '14:31' }
+        ]
+      },
+      {
+        id: 'demo-2',
+        nome: 'Lucas Ferreira',
+        area: 'Marketing Digital',
+        objetivo: 'Conseguir a primeira oportunidade em marketing de performance.',
+        mensagens: [
+          { remetente: 'mentorado', texto: 'Oi! Quais certificações gratuitas fazem mais diferença para começar em tráfego pago?', hora: 'Ontem' },
+          { remetente: 'mentor', texto: 'Olá, Lucas! Comece pelas certificações do Google Skillshop e monte um estudo de campanha simulada.', hora: 'Ontem' }
+        ]
+      }
+    ];
+
+    const urlConv = new URLSearchParams(window.location.search).get('conversa');
+    let activeThreadId = demoThreads.some((t) => t.id === urlConv) ? urlConv : demoThreads[0].id;
+    let currentRole = 'mentor';
+
+    const threadsEl = document.getElementById('chat-threads');
+    const messagesEl = document.getElementById('chat-messages');
+
+    function renderThreads(search = '') {
+      const q = search.trim().toLowerCase();
+      const filtered = demoThreads.filter((t) =>
+        !q || t.nome.toLowerCase().includes(q) || t.area.toLowerCase().includes(q)
+      );
+
+      threadsEl.innerHTML = '';
+      if (!filtered.length) {
+        threadsEl.innerHTML = `<div class="state-box">Nenhuma conversa encontrada.</div>`;
+        return;
+      }
+
+      filtered.forEach((thread) => {
+        const lastMsg = thread.mensagens[thread.mensagens.length - 1];
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'thread-item' + (thread.id === activeThreadId ? ' is-active' : '');
+        btn.innerHTML = `
+          <span class="avatar-circle">
+            <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-3.8 3.1-6.5 7-6.5s7 2.7 7 6.5"/></svg>
+          </span>
+          <div class="thread-item__body">
+            <div class="thread-item__top">
+              <strong>${thread.nome}</strong>
+              <span>${lastMsg ? lastMsg.hora : ''}</span>
+            </div>
+            <span class="area-tag area-tag--sm">${thread.area}</span>
+            <p class="thread-item__preview">${lastMsg ? lastMsg.texto : 'Sem mensagens ainda'}</p>
+          </div>
+        `;
+        btn.addEventListener('click', () => {
+          activeThreadId = thread.id;
+          renderThreads(document.getElementById('chat-search-input').value);
+          renderActiveConversation();
+        });
+        threadsEl.appendChild(btn);
+      });
+    }
+
+    function renderActiveConversation() {
+      const thread = demoThreads.find((t) => t.id === activeThreadId) || demoThreads[0];
+      if (!thread) return;
+
+      document.getElementById('chat-active-name').textContent = thread.nome;
+      document.getElementById('chat-active-area').textContent = `Mentoria em ${thread.area}`;
+      document.getElementById('profile-name').textContent = thread.nome;
+      document.getElementById('profile-area').textContent = thread.area;
+      document.getElementById('profile-goal').textContent = thread.objetivo;
+
+      messagesEl.innerHTML = '';
+      thread.mensagens.forEach((msg) => {
+        const isOutgoing = msg.remetente === 'mentor';
+        const row = document.createElement('div');
+        row.className = 'msg-row ' + (isOutgoing ? 'msg-row--outgoing' : 'msg-row--incoming');
+
+        if (isOutgoing) {
+          row.innerHTML = `
+            <div class="msg-content">
+              <div class="msg-bubble"></div>
+              <span class="msg-time">${msg.hora}</span>
+            </div>
+            <span class="mentor-badge-avatar" aria-hidden="true">
+              <svg viewBox="0 0 32 32" fill="none">
+                <circle cx="16" cy="16" r="13" stroke="var(--color-primary)" stroke-width="2"/>
+                <polygon points="16,16 21,10 18,17" fill="var(--color-accent)"/>
+                <polygon points="16,16 11,22 14,15" fill="var(--color-primary)"/>
+              </svg>
+            </span>
+          `;
+        } else {
+          row.innerHTML = `
+            <span class="avatar-circle avatar-circle--sm">
+              <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-3.8 3.1-6.5 7-6.5s7 2.7 7 6.5"/></svg>
+            </span>
+            <div class="msg-content">
+              <div class="msg-bubble"></div>
+              <span class="msg-time">${msg.hora}</span>
+            </div>
+          `;
+        }
+
+        row.querySelector('.msg-bubble').textContent = msg.texto;
+        messagesEl.appendChild(row);
+      });
+
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    document.querySelectorAll('.chat-role-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.chat-role-btn').forEach((b) => b.classList.remove('is-active'));
+        btn.classList.add('is-active');
+        currentRole = btn.dataset.role;
+      });
+    });
+
+    document.getElementById('chat-search-input').addEventListener('input', (e) => {
+      renderThreads(e.target.value);
+    });
+
+    document.getElementById('chat-composer').addEventListener('submit', (e) => {
       e.preventDefault();
       const input = document.getElementById('chat-input');
-      const text = input.value.trim();
-      if (!text) return;
+      const texto = input.value.trim();
+      if (!texto) return;
 
-      const container = document.getElementById('chat-messages');
+      const thread = demoThreads.find((t) => t.id === activeThreadId);
+      if (!thread) return;
+
       const now = new Date();
-      const time = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+      const hora = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+      thread.mensagens.push({ remetente: currentRole, texto, hora });
 
-      const row = document.createElement('div');
-      row.className = 'msg-row msg-row--outgoing';
-      row.innerHTML = `
-        <div class="msg-content">
-          <div class="msg-bubble"></div>
-          <span class="msg-time">${time}</span>
-        </div>
-        <span class="mentor-badge-avatar" aria-hidden="true">
-          <svg viewBox="0 0 32 32" fill="none">
-            <circle cx="16" cy="16" r="13" stroke="var(--color-primary)" stroke-width="2"/>
-            <polygon points="16,16 21,10 18,17" fill="var(--color-accent)"/>
-            <polygon points="16,16 11,22 14,15" fill="var(--color-primary)"/>
-          </svg>
-        </span>
-      `;
-      row.querySelector('.msg-bubble').textContent = text;
-      container.appendChild(row);
-      container.scrollTop = container.scrollHeight;
       input.value = '';
-    }
+      renderActiveConversation();
+      renderThreads(document.getElementById('chat-search-input').value);
+    });
+
+    renderThreads();
+    renderActiveConversation();
   </script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login — Bússolab</title>
+  <title>Entrar — Bússolab</title>
   <link rel="stylesheet" href="../styles.css" />
 </head>
 <body class="page-login">
@@ -32,7 +32,7 @@
   </div>
 
   <main class="login-card">
-    <a href="../home/index.html" class="brand brand--centered">
+    <a href="../index.html" class="brand brand--centered">
       <svg class="brand__icon" viewBox="0 0 32 32" fill="none" aria-hidden="true">
         <circle cx="16" cy="16" r="13" stroke="var(--color-primary)" stroke-width="2.2"/>
         <polygon points="16,16 21,10 18,17" fill="var(--color-accent)"/>
@@ -43,17 +43,28 @@
     </a>
 
     <h1 class="login-card__title">Seja Bem-Vindo</h1>
-    <p class="login-card__subtitle">Entre para continuar sua trilha</p>
+    <p class="login-card__subtitle">Identificação simulada no MVP — use um nome fictício</p>
 
-    <form class="login-form" action="../home/index.html" method="get">
+    <form class="login-form" id="login-form">
       <div class="form-group">
-        <label for="email" class="form-label">E-mail</label>
+        <label for="user-name" class="form-label">Nome ou apelido (fictício)</label>
+        <div class="input-wrapper">
+          <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <circle cx="12" cy="8" r="4"/>
+            <path d="M5 20c0-3.8 3.1-6.5 7-6.5s7 2.7 7 6.5"/>
+          </svg>
+          <input type="text" id="user-name" class="form-input" placeholder="Ex.: João Silva" required />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email" class="form-label">E-mail fictício</label>
         <div class="input-wrapper">
           <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
             <rect x="3" y="5" width="18" height="14" rx="2"/>
             <path d="M3 7l9 6 9-6"/>
           </svg>
-          <input type="email" id="email" class="form-input" placeholder="seu@email.com" required />
+          <input type="email" id="email" class="form-input" placeholder="exemplo@bussolab.dev" required />
         </div>
       </div>
 
@@ -63,14 +74,14 @@
             <rect x="5" y="11" width="14" height="10" rx="2"/>
             <path d="M8 11V7a4 4 0 0 1 8 0v4"/>
           </svg>
-          Senha
+          Senha (simulada)
         </label>
         <div class="input-wrapper">
           <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
             <rect x="5" y="11" width="14" height="10" rx="2"/>
             <path d="M8 11V7a4 4 0 0 1 8 0v4"/>
           </svg>
-          <input type="password" id="password" class="form-input" placeholder="Digite sua senha" required />
+          <input type="password" id="password" class="form-input" placeholder="Qualquer senha para teste" required />
           <button type="button" class="input-action" aria-label="Mostrar senha" onclick="togglePassword()">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
               <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z"/>
@@ -89,13 +100,33 @@
     </form>
 
     <div class="login-card__divider" aria-hidden="true"></div>
+
+    <div style="margin-top: 16px;">
+      <a href="../index.html" class="btn-cancel-link">← Voltar sem identificar</a>
+    </div>
   </main>
 
+  <script src="../js/shared.js"></script>
   <script>
     function togglePassword() {
       const input = document.getElementById('password');
       input.type = input.type === 'password' ? 'text' : 'password';
     }
+
+    const existing = getStoredUser();
+    if (existing) {
+      if (existing.nome) document.getElementById('user-name').value = existing.nome;
+      if (existing.email) document.getElementById('email').value = existing.email;
+    }
+
+    document.getElementById('login-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const nome = document.getElementById('user-name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      if (!nome) return;
+      saveStoredUser({ nome, email });
+      window.location.href = '../index.html';
+    });
   </script>
 </body>
 </html>

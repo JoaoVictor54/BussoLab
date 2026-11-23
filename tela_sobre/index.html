@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sobre a Solução — Bússolab</title>
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body class="page-wizard">
+
+  <header class="navbar">
+    <div class="container navbar__inner">
+      <a href="../index.html" class="brand">
+        <svg class="brand__icon" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <circle cx="16" cy="16" r="13" stroke="var(--color-primary)" stroke-width="2.2"/>
+          <polygon points="16,16 21,10 18,17" fill="var(--color-accent)"/>
+          <polygon points="16,16 11,22 14,15" fill="var(--color-primary)"/>
+          <circle cx="16" cy="16" r="1.5" fill="var(--color-surface)"/>
+        </svg>
+        <span class="brand__text">Bússo<span class="brand__text--accent">lab</span></span>
+      </a>
+
+      <nav class="navbar__nav" aria-label="Navegação principal">
+        <a href="../index.html" class="navbar__link">Início</a>
+        <a href="../tela_sobre/index.html" class="navbar__link is-active">Sobre a Solução</a>
+        <a href="../tela_escolha_profissao/index.html" class="navbar__link">Trilhas</a>
+        <a href="../tela_pedir_mentoria/index.html" class="navbar__link">Pedir Mentoria</a>
+        <a href="../tela_mentorias/index.html" class="navbar__link">Mentorias</a>
+        <a href="../tela_cadastro_mentor/index.html" class="navbar__link">Ser Mentor</a>
+        <a href="../tela_mentoria_chat/index.html" class="navbar__link">Chat</a>
+      </nav>
+
+      <a href="../login/index.html" class="user-profile-pill" id="header-user-pill">
+        <span class="user-initials">→</span>
+        <span class="user-name-label">Entrar</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="about-main">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Caminho" style="margin-bottom: 20px;">
+        <a href="../index.html" class="breadcrumb__item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-9.5z"/>
+          </svg>
+          Início
+        </a>
+        <span class="breadcrumb__sep">›</span>
+        <span class="breadcrumb__current">Sobre a Solução</span>
+      </nav>
+
+      <!-- Hero Sobre -->
+      <section class="about-hero">
+        <div>
+          <span class="about-eyebrow">Desafio Seed • Squad Bússolab</span>
+          <h1 class="about-hero__title">Direção prática para quem quer começar ou migrar de carreira.</h1>
+          <p class="about-hero__desc">
+            O <strong>Bússolab</strong> é uma plataforma web que ajuda estudantes, recém-formados e pessoas em transição de carreira a descobrirem áreas compatíveis com seu perfil, seguirem trilhas de estudo enxutas e se conectarem com mentores dispostos a orientar seus próximos passos.
+          </p>
+        </div>
+
+        <div class="hero__illustration" aria-hidden="true">
+          <svg viewBox="0 0 260 220" fill="none">
+            <ellipse cx="130" cy="125" rx="115" ry="75" fill="var(--color-bg-shape)" />
+            <circle cx="130" cy="112" r="62" fill="var(--color-primary)"/>
+            <circle cx="130" cy="112" r="48" fill="var(--color-surface)"/>
+            <polygon points="130,112 158,76 140,120" fill="var(--color-accent)"/>
+            <polygon points="130,112 102,148 120,104" fill="var(--color-primary)"/>
+            <circle cx="130" cy="112" r="6" fill="var(--color-surface)" stroke="var(--color-primary)" stroke-width="2"/>
+            <line x1="78" y1="36" x2="90" y2="52" stroke="var(--color-accent)" stroke-width="3.5" stroke-linecap="round"/>
+            <line x1="130" y1="22" x2="130" y2="40" stroke="var(--color-accent)" stroke-width="3.5" stroke-linecap="round"/>
+            <line x1="182" y1="36" x2="170" y2="52" stroke="var(--color-accent)" stroke-width="3.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </section>
+
+      <!-- Problema e Solução -->
+      <section class="about-section">
+        <div class="about-two-col">
+          <article class="about-card">
+            <span class="icon-badge icon-badge--orange">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="9"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <circle cx="12" cy="16" r="0.8" fill="currentColor"/>
+              </svg>
+            </span>
+            <h3>O Problema</h3>
+            <p>
+              Quem está entrando no mercado ou planejando uma transição profissional costuma esbarrar em três barreiras: excesso de informações desorganizadas na internet, incerteza sobre qual área combina com seu perfil e falta de acesso a profissionais experientes para tirar dúvidas reais.
+            </p>
+            <ul class="about-list">
+              <li><span class="about-list__dot">•</span>Paralisia na escolha entre tantas áreas e sub-áreas.</li>
+              <li><span class="about-list__dot">•</span>Estudo sem sequência lógica, gerando desmotivação e desistência.</li>
+              <li><span class="about-list__dot">•</span>Mentorias de carreira caras ou concentradas em redes fechadas.</li>
+            </ul>
+          </article>
+
+          <article class="about-card">
+            <span class="icon-badge icon-badge--teal">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="9"/>
+                <polygon points="16 8 14 14 8 16 10 10 16 8"/>
+              </svg>
+            </span>
+            <h3>Nossa Solução</h3>
+            <p>
+              Reunimos em uma experiência simples e guiada o caminho completo entre a dúvida inicial e a ação prática, sem sobrecarregar o usuário.
+            </p>
+            <ul class="about-list">
+              <li><span class="about-list__dot">✓</span><strong>Quiz de Afinidade:</strong> sugere 3 trilhas compatíveis com o perfil em menos de 1 minuto.</li>
+              <li><span class="about-list__dot">✓</span><strong>Trilhas Curtas por Etapas:</strong> mapas visuais interativos com controle de progresso em 8 áreas.</li>
+              <li><span class="about-list__dot">✓</span><strong>Conexão com Mentores:</strong> requisições de mentoria, painel de mentores e chat direto.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <!-- ODS Impactadas -->
+      <section class="about-section">
+        <h2 class="section-title">ODS Impactadas</h2>
+        <div class="ods-grid">
+          <article class="ods-card ods-card--ods4">
+            <span class="ods-badge ods-badge--ods4">ODS 4</span>
+            <h3>Educação de Qualidade</h3>
+            <p>
+              Promove acesso estruturado e gratuito a roteiros de aprendizagem alinhados às competências exigidas pelo mercado atual, estimulando a aprendizagem contínua.
+            </p>
+          </article>
+
+          <article class="ods-card ods-card--ods8">
+            <span class="ods-badge ods-badge--ods8">ODS 8</span>
+            <h3>Trabalho Decente e Crescimento Econômico</h3>
+            <p>
+              Apoia a inserção produtiva de jovens e profissionais em transição, reduzindo o tempo entre o início dos estudos e a conquista de estágios ou primeiras vagas.
+            </p>
+          </article>
+
+          <article class="ods-card ods-card--ods10">
+            <span class="ods-badge ods-badge--ods10">ODS 10</span>
+            <h3>Redução das Desigualdades</h3>
+            <p>
+              Democratiza o acesso à orientação profissional e à troca com mentores experientes, aproximando oportunidades de quem não tem uma rede de contatos estabelecida.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <!-- Público-Alvo -->
+      <section class="about-section">
+        <h2 class="section-title">Público-Alvo</h2>
+        <div class="audience-grid">
+          <article class="about-card">
+            <span class="icon-badge icon-badge--blue">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="12 4 3 9 12 14 21 9 12 4"/>
+                <path d="M6 11v5c0 1.8 2.7 3 6 3s6-1.2 6-3v-5"/>
+              </svg>
+            </span>
+            <h3>Estudantes</h3>
+            <p>Pessoas no ensino médio, técnico ou graduação buscando clareza para conquistar o primeiro estágio.</p>
+          </article>
+
+          <article class="about-card">
+            <span class="icon-badge icon-badge--purple">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 1l4 4-4 4"/>
+                <path d="M3 11V9a4 4 0 0 1 4-4h14"/>
+                <path d="M7 23l-4-4 4-4"/>
+                <path d="M21 13v2a4 4 0 0 1-4 4H3"/>
+              </svg>
+            </span>
+            <h3>Em Transição</h3>
+            <p>Profissionais migrando de área que precisam de um plano objetivo sem perder meses com conteúdos dispersos.</p>
+          </article>
+
+          <article class="about-card">
+            <span class="icon-badge icon-badge--mint">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="7" width="18" height="13" rx="2"/>
+                <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+              </svg>
+            </span>
+            <h3>Recém-formados</h3>
+            <p>Quem concluiu a formação e busca estruturar portfólio, currículo e preparação prática para vagas júnior.</p>
+          </article>
+
+          <article class="about-card">
+            <span class="icon-badge icon-badge--teal">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="9" cy="8" r="3.5"/>
+                <path d="M3 19c0-3.3 2.7-6 6-6s6 2.7 6 6"/>
+                <circle cx="17" cy="9" r="2.5"/>
+                <path d="M16 19c0-2.2 1.6-4 3.5-4.3"/>
+              </svg>
+            </span>
+            <h3>Mentores Voluntários</h3>
+            <p>Profissionais que desejam retribuir compartilhando experiência, dicas práticas e direção de carreira.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- Escopo do MVP -->
+      <section class="about-section">
+        <h2 class="section-title">Escopo do MVP &amp; Visão de Futuro</h2>
+        <div class="about-two-col">
+          <article class="about-card">
+            <h3>Funcional no MVP</h3>
+            <ul class="about-list">
+              <li><span class="about-list__dot">✓</span>Quiz interativo com cálculo de afinidade e 29 trilhas completas em 8 áreas.</li>
+              <li><span class="about-list__dot">✓</span>Solicitação e gestão de requisições de mentoria (cadastro, listagem, status, filtros e remoção).</li>
+              <li><span class="about-list__dot">✓</span>Cadastro e listagem de mentores voluntários.</li>
+              <li><span class="about-list__dot">✓</span>Chat de mentoria entre mentorado e mentor.</li>
+            </ul>
+          </article>
+
+          <article class="about-card">
+            <h3>Simulado / Visão de Futuro</h3>
+            <ul class="about-list">
+              <li><span class="about-list__dot">→</span><strong>Login e contas privadas:</strong> simulados localmente (a API do desafio é aberta e sem autenticação).</li>
+              <li><span class="about-list__dot">→</span><strong>Upload de diplomas/certificados:</strong> interface demonstrativa sem envio binário de arquivos.</li>
+              <li><span class="about-list__dot">→</span><strong>Notificações em tempo real e videochamada integrada:</strong> previstos para versões futuras.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <!-- CTA Final -->
+      <section class="cta-banner">
+        <div>
+          <h2>Pronto para testar o Bússolab na prática?</h2>
+          <p>Explore as trilhas de aprendizagem, responda ao quiz ou envie sua primeira requisição de mentoria.</p>
+        </div>
+        <div class="cta-banner__actions">
+          <a href="../tela_de_quiz/index.html" class="btn btn--accent btn--pill">Fazer Quiz</a>
+          <a href="../tela_escolha_profissao/index.html" class="btn btn--outline-inverse btn--pill">Explorar Trilhas</a>
+          <a href="../tela_pedir_mentoria/index.html" class="btn btn--outline-inverse btn--pill">Pedir Mentoria</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <span class="footer__brand">
+        <svg width="16" height="16" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <circle cx="16" cy="16" r="13" stroke="currentColor" stroke-width="2.4"/>
+          <polygon points="16,16 21,10 18,17" fill="var(--color-accent)"/>
+        </svg>
+        Bússo<span class="brand__text--accent">lab</span>
+      </span>
+      <span class="footer__divider">|</span>
+      <span>Orientação de carreira e mentorias • MVP</span>
+      <span class="footer__divider">|</span>
+      <div class="footer__socials">
+        <a href="../tela_sobre/index.html" aria-label="Sobre a solução">Sobre</a>
+        <a href="../tela_escolha_profissao/index.html" aria-label="Trilhas">Trilhas</a>
+        <a href="../tela_pedir_mentoria/index.html" aria-label="Mentoria">Mentoria</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/shared.js"></script>
+</body>
+</html>

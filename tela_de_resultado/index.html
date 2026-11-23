@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-PT">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,7 +10,7 @@
 
   <header class="navbar">
     <div class="container navbar__inner">
-      <a href="../home/index.html" class="brand">
+      <a href="../index.html" class="brand">
         <svg class="brand__icon" viewBox="0 0 32 32" fill="none" aria-hidden="true">
           <circle cx="16" cy="16" r="13" stroke="var(--color-primary)" stroke-width="2.2"/>
           <polygon points="16,16 21,10 18,17" fill="var(--color-accent)"/>
@@ -20,7 +20,20 @@
         <span class="brand__text">Bússo<span class="brand__text--accent">lab</span></span>
       </a>
 
-      <a href="../tela_escolha_profissao/index.html" class="btn btn--accent btn--sm btn--pill">Começar</a>
+      <nav class="navbar__nav" aria-label="Navegação principal">
+        <a href="../index.html" class="navbar__link">Início</a>
+        <a href="../tela_sobre/index.html" class="navbar__link">Sobre a Solução</a>
+        <a href="../tela_escolha_profissao/index.html" class="navbar__link is-active">Trilhas</a>
+        <a href="../tela_pedir_mentoria/index.html" class="navbar__link">Pedir Mentoria</a>
+        <a href="../tela_mentorias/index.html" class="navbar__link">Mentorias</a>
+        <a href="../tela_cadastro_mentor/index.html" class="navbar__link">Ser Mentor</a>
+        <a href="../tela_mentoria_chat/index.html" class="navbar__link">Chat</a>
+      </nav>
+
+      <a href="../login/index.html" class="user-profile-pill" id="header-user-pill">
+        <span class="user-initials">→</span>
+        <span class="user-name-label">Entrar</span>
+      </a>
     </div>
   </header>
 
@@ -35,7 +48,6 @@
             <line x1="68" y1="52" x2="88" y2="54" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round"/>
             <line x1="182" y1="22" x2="166" y2="38" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round"/>
             <line x1="192" y1="52" x2="172" y2="54" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round"/>
-            <!-- Taça -->
             <path d="M110 24h40v24c0 11-9 20-20 20s-20-9-20-20V24z" fill="var(--color-blue-fg)"/>
             <path d="M110 30h-10c0 10 5 16 10 16M150 30h10c0 10-5 16-10 16" stroke="var(--color-blue-fg)" stroke-width="3.5" stroke-linecap="round"/>
             <polygon points="130,34 132.5,40 139,40.5 134,44.8 135.5,51 130,47.6 124.5,51 126,44.8 121,40.5 127.5,40" fill="var(--color-surface)"/>
@@ -45,56 +57,86 @@
         </div>
 
         <h1 class="results-header__title">Encontramos 3 áreas para você</h1>
-        <p class="results-header__subtitle">Com base nas suas respostas, estas combinam mais com seu perfil.</p>
+        <p class="results-header__subtitle">Com base nas suas respostas, estas trilhas combinam mais com seu perfil.</p>
       </div>
 
-      <!-- 3 Cards de afinidade -->
-      <div class="results-grid">
-        <article class="result-card is-featured">
-          <span class="affinity-badge">92% de afinidade</span>
-          <span class="icon-badge icon-badge--lg icon-badge--purple">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 3a9 9 0 0 0 0 18c1.1 0 2-.9 2-2 0-.5-.2-1-.5-1.3-.3-.4-.5-.8-.5-1.3 0-1.1.9-2 2-2h2.4c3.1 0 5.6-2.5 5.6-5.6C23 5.5 18.1 3 12 3z"/>
-              <circle cx="7.5" cy="11.5" r="1" fill="currentColor"/>
-              <circle cx="10.5" cy="8.5" r="1" fill="currentColor"/>
-              <circle cx="14.5" cy="8.5" r="1" fill="currentColor"/>
-            </svg>
-          </span>
-          <h2 class="result-card__title">UX/UI Design</h2>
-          <p class="result-card__desc">Crie experiências incríveis com foco no usuário.</p>
-          <a href="#" class="btn btn--accent btn--pill btn--full">Ver trilha</a>
-        </article>
+      <!-- 3 Cards de afinidade dinâmicos -->
+      <div class="results-grid" id="results-grid"></div>
 
-        <article class="result-card">
-          <span class="affinity-badge">85% de afinidade</span>
-          <span class="icon-badge icon-badge--lg icon-badge--blue">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="8 7 3 12 8 17"/>
-              <polyline points="16 7 21 12 16 17"/>
-              <line x1="14" y1="5" x2="10" y2="19"/>
-            </svg>
-          </span>
-          <h2 class="result-card__title">Front-end</h2>
-          <p class="result-card__desc">Desenvolva interfaces modernas e interativas para a web.</p>
-          <a href="../tela_trilha_desenvolvimento_frontend/index.html" class="btn btn--accent btn--pill btn--full">Ver trilha</a>
-        </article>
-
-        <article class="result-card">
-          <span class="affinity-badge">78% de afinidade</span>
-          <span class="icon-badge icon-badge--lg icon-badge--mint">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
-              <line x1="7" y1="18" x2="7" y2="14"/>
-              <line x1="12" y1="18" x2="12" y2="10"/>
-              <line x1="17" y1="18" x2="17" y2="6"/>
-            </svg>
-          </span>
-          <h2 class="result-card__title">Análise de Dados</h2>
-          <p class="result-card__desc">Transforme dados em insights valiosos.</p>
-          <a href="trilha.html" class="btn btn--accent btn--pill btn--full">Ver trilha</a>
-        </article>
+      <div class="results-actions">
+        <a href="../tela_de_quiz/index.html" class="btn btn--ghost btn--pill">↺ Refazer quiz</a>
+        <a href="../tela_escolha_profissao/index.html" class="btn btn--outline btn--pill">Explorar todas as profissões</a>
+        <a href="../tela_pedir_mentoria/index.html" class="btn btn--primary btn--pill">Conversar com um mentor</a>
       </div>
     </div>
   </main>
 
+  <footer class="footer">
+    <div class="container footer__inner">
+      <span class="footer__brand">
+        <svg width="16" height="16" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <circle cx="16" cy="16" r="13" stroke="currentColor" stroke-width="2.4"/>
+          <polygon points="16,16 21,10 18,17" fill="var(--color-accent)"/>
+        </svg>
+        Bússo<span class="brand__text--accent">lab</span>
+      </span>
+      <span class="footer__divider">|</span>
+      <span>Orientação de carreira e mentorias • MVP</span>
+      <span class="footer__divider">|</span>
+      <div class="footer__socials">
+        <a href="../tela_sobre/index.html" aria-label="Sobre a solução">Sobre</a>
+        <a href="../tela_escolha_profissao/index.html" aria-label="Trilhas">Trilhas</a>
+        <a href="../tela_pedir_mentoria/index.html" aria-label="Mentoria">Mentoria</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/shared.js"></script>
+  <script src="../js/trilhas-data.js"></script>
+  <script>
+    function loadResults() {
+      const params = new URLSearchParams(window.location.search);
+      const resParam = params.get('res');
+      if (resParam) {
+        const parsed = resParam.split(',').map((pair) => {
+          const [trackId, aff] = pair.split(':');
+          return { trackId, affinity: Number(aff) || 80 };
+        }).filter((item) => BUSSOLAB_TRACKS[item.trackId]);
+        if (parsed.length) return parsed.slice(0, 3);
+      }
+
+      try {
+        const stored = JSON.parse(sessionStorage.getItem('bussolab_quiz_results') || 'null');
+        if (Array.isArray(stored) && stored.length) return stored.slice(0, 3);
+      } catch {
+        // fallback padrão
+      }
+
+      return [
+        { trackId: 'ux-ui', affinity: 92 },
+        { trackId: 'frontend', affinity: 85 },
+        { trackId: 'analise-dados', affinity: 78 }
+      ];
+    }
+
+    const resultsGrid = document.getElementById('results-grid');
+    const results = loadResults();
+
+    results.forEach((item, index) => {
+      const track = getTrackById(item.trackId);
+      const card = document.createElement('article');
+      card.className = 'result-card' + (index === 0 ? ' is-featured' : '');
+      card.innerHTML = `
+        <span class="affinity-badge">${item.affinity}% de afinidade</span>
+        <span class="icon-badge icon-badge--lg icon-badge--${track.color}">
+          ${getIconSvg(track.icon)}
+        </span>
+        <h2 class="result-card__title">${track.titulo}</h2>
+        <p class="result-card__desc">${track.descricao}</p>
+        <a href="../tela_trilha/index.html?trilha=${encodeURIComponent(track.id)}" class="btn btn--accent btn--pill btn--full">Ver trilha</a>
+      `;
+      resultsGrid.appendChild(card);
+    });
+  </script>
 </body>
 </html>
