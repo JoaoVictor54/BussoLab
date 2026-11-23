@@ -10,7 +10,7 @@
 
   <header class="navbar">
     <div class="container navbar__inner">
-      <a href="../home/index.html" class="brand">
+      <a href="../index.html" class="brand">
         <svg class="brand__icon" viewBox="0 0 32 32" fill="none" aria-hidden="true">
           <circle cx="16" cy="16" r="13" stroke="var(--color-primary)" stroke-width="2.2"/>
           <polygon points="16,16 21,10 18,17" fill="var(--color-accent)"/>
@@ -19,6 +19,21 @@
         </svg>
         <span class="brand__text">Bússo<span class="brand__text--accent">lab</span></span>
       </a>
+
+      <nav class="navbar__nav" aria-label="Navegação principal">
+        <a href="../index.html" class="navbar__link">Início</a>
+        <a href="../tela_sobre/index.html" class="navbar__link">Sobre a Solução</a>
+        <a href="../tela_escolha_profissao/index.html" class="navbar__link is-active">Trilhas</a>
+        <a href="../tela_pedir_mentoria/index.html" class="navbar__link">Pedir Mentoria</a>
+        <a href="../tela_mentorias/index.html" class="navbar__link">Mentorias</a>
+        <a href="../tela_cadastro_mentor/index.html" class="navbar__link">Ser Mentor</a>
+        <a href="../tela_mentoria_chat/index.html" class="navbar__link">Chat</a>
+      </nav>
+
+      <a href="../login/index.html" class="user-profile-pill" id="header-user-pill">
+        <span class="user-initials">→</span>
+        <span class="user-name-label">Entrar</span>
+      </a>
     </div>
   </header>
 
@@ -26,7 +41,7 @@
     <div class="container">
       <div class="wizard-topbar">
         <nav class="breadcrumb" aria-label="Caminho">
-          <a href="../home/index.html" class="breadcrumb__item">
+          <a href="../index.html" class="breadcrumb__item">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-9.5z"/>
             </svg>
@@ -57,125 +72,109 @@
       <h1 class="wizard-title">Qual profissão você quer seguir?</h1>
 
       <div class="search-box">
-        <input type="search" id="search-profession" class="search-box__input" aria-label="Buscar profissão" placeholder="Busque pelo nome" />
+        <input type="search" id="search-profession" class="search-box__input" aria-label="Buscar profissão" placeholder="Busque pelo nome da área (ex.: Design, Dados, Finanças...)" />
       </div>
 
-      <div class="profession-grid">
-        <button type="button" class="profession-card is-selected">
-          <span class="icon-badge icon-badge--teal">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="8 7 3 12 8 17"/>
-              <polyline points="16 7 21 12 16 17"/>
-              <line x1="14" y1="5" x2="10" y2="19"/>
-            </svg>
-          </span>
-          <span class="profession-card__title">Desenvolvimento</span>
-        </button>
-
-        <button type="button" class="profession-card">
-          <span class="icon-badge icon-badge--purple">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 3l6 9-3 6H9l-3-6 6-9z"/>
-              <line x1="12" y1="3" x2="12" y2="11"/>
-              <circle cx="12" cy="12" r="1.5"/>
-              <line x1="8" y1="21" x2="16" y2="21"/>
-            </svg>
-          </span>
-          <span class="profession-card__title">Design</span>
-        </button>
-
-        <button type="button" class="profession-card">
-          <span class="icon-badge icon-badge--mint">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
-              <line x1="7" y1="18" x2="7" y2="14"/>
-              <line x1="12" y1="18" x2="12" y2="10"/>
-              <line x1="17" y1="18" x2="17" y2="6"/>
-            </svg>
-          </span>
-          <span class="profession-card__title">Análise de Dados</span>
-        </button>
-
-        <button type="button" class="profession-card">
-          <span class="icon-badge icon-badge--orange">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M4 11v2a1 1 0 0 0 1 1h2l6 4V6L7 10H5a1 1 0 0 0-1 1z"/>
-              <path d="M17 9a4 4 0 0 1 0 6"/>
-              <path d="M7 14l1.5 5"/>
-            </svg>
-          </span>
-          <span class="profession-card__title">Marketing Digital</span>
-        </button>
-
-        <button type="button" class="profession-card">
-          <span class="icon-badge icon-badge--blue">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="6" y="4" width="12" height="16" rx="2"/>
-              <path d="M9 4V3h6v1"/>
-              <polyline points="9 13 11 15 15 11"/>
-            </svg>
-          </span>
-          <span class="profession-card__title">Gestão de Projetos</span>
-        </button>
-
-        <button type="button" class="profession-card">
-          <span class="icon-badge icon-badge--green">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <ellipse cx="10" cy="11" rx="5" ry="2.5"/>
-              <path d="M5 11v4c0 1.4 2.2 2.5 5 2.5s5-1.1 5-2.5v-4"/>
-              <ellipse cx="15" cy="8" rx="4.5" ry="2"/>
-              <path d="M19.5 8v4c0 1.1-1.8 2-4.5 2"/>
-            </svg>
-          </span>
-          <span class="profession-card__title">Finanças</span>
-        </button>
-
-        <button type="button" class="profession-card">
-          <span class="icon-badge icon-badge--indigo">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/>
-              <rect x="9.5" y="11" width="5" height="4" rx="1"/>
-              <path d="M10.5 11V9.5a1.5 1.5 0 0 1 3 0V11"/>
-            </svg>
-          </span>
-          <span class="profession-card__title">Redes e Segurança</span>
-        </button>
-
-        <button type="button" class="profession-card">
-          <span class="icon-badge icon-badge--pink">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polygon points="12 3 20 7.5 20 16.5 12 21 4 16.5 4 7.5 12 3"/>
-              <polyline points="4 7.5 12 12 20 7.5"/>
-              <line x1="12" y1="12" x2="12" y2="21"/>
-            </svg>
-          </span>
-          <span class="profession-card__title">Produto</span>
-        </button>
+      <div class="profession-grid" id="profession-grid"></div>
+      <div class="state-box" id="profession-empty" style="display: none; margin-top: 16px;">
+        Nenhuma profissão encontrada para essa busca. Tente outro termo ou <a href="../tela_de_quiz/index.html" style="color: var(--color-accent); font-weight: 700;">faça o quiz de afinidade</a>.
       </div>
 
       <div class="wizard-footer">
-        <a href="../home/index.html" class="btn btn--ghost">← Voltar</a>
-        <a href="../tela_escolha_area/index.html" class="btn btn--accent btn--pill">Continuar ›</a>
+        <a href="../index.html" class="btn btn--ghost">← Voltar</a>
+        <a id="continue-btn" href="#" class="btn btn--accent btn--pill is-disabled" aria-disabled="true">Continuar ›</a>
       </div>
     </div>
   </main>
 
+  <footer class="footer">
+    <div class="container footer__inner">
+      <span class="footer__brand">
+        <svg width="16" height="16" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <circle cx="16" cy="16" r="13" stroke="currentColor" stroke-width="2.4"/>
+          <polygon points="16,16 21,10 18,17" fill="var(--color-accent)"/>
+        </svg>
+        Bússo<span class="brand__text--accent">lab</span>
+      </span>
+      <span class="footer__divider">|</span>
+      <span>Orientação de carreira e mentorias • MVP</span>
+      <span class="footer__divider">|</span>
+      <div class="footer__socials">
+        <a href="../tela_sobre/index.html" aria-label="Sobre a solução">Sobre</a>
+        <a href="../tela_escolha_profissao/index.html" aria-label="Trilhas">Trilhas</a>
+        <a href="../tela_pedir_mentoria/index.html" aria-label="Mentoria">Mentoria</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/shared.js"></script>
+  <script src="../js/trilhas-data.js"></script>
   <script>
-    const cards = document.querySelectorAll('.profession-card');
-    cards.forEach((card) => {
-      card.addEventListener('click', () => {
-        cards.forEach((c) => c.classList.remove('is-selected'));
-        card.classList.add('is-selected');
+    const grid = document.getElementById('profession-grid');
+    const emptyBox = document.getElementById('profession-empty');
+    const continueBtn = document.getElementById('continue-btn');
+    const searchInput = document.getElementById('search-profession');
+
+    let selectedProfId = null;
+
+    function updateContinueLink() {
+      if (selectedProfId) {
+        continueBtn.href = `../tela_escolha_area/index.html?profissao=${encodeURIComponent(selectedProfId)}`;
+        continueBtn.classList.remove('is-disabled');
+        continueBtn.removeAttribute('aria-disabled');
+      } else {
+        continueBtn.href = '#';
+        continueBtn.classList.add('is-disabled');
+        continueBtn.setAttribute('aria-disabled', 'true');
+      }
+    }
+
+    function renderProfessions(filterTerm = '') {
+      const term = filterTerm.trim().toLowerCase();
+      const filtered = BUSSOLAB_PROFESSIONS.filter((p) => p.nome.toLowerCase().includes(term));
+
+      grid.innerHTML = '';
+      if (!filtered.length) {
+        emptyBox.style.display = 'block';
+        return;
+      }
+      emptyBox.style.display = 'none';
+
+      filtered.forEach((prof) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'profession-card' + (prof.id === selectedProfId ? ' is-selected' : '');
+        btn.dataset.profissao = prof.id;
+        btn.innerHTML = `
+          <span class="icon-badge icon-badge--${prof.color}">
+            ${getIconSvg(prof.icon)}
+          </span>
+          <span class="profession-card__title">${prof.nome}</span>
+        `;
+
+        btn.addEventListener('click', () => {
+          selectedProfId = prof.id;
+          grid.querySelectorAll('.profession-card').forEach((c) => c.classList.remove('is-selected'));
+          btn.classList.add('is-selected');
+          updateContinueLink();
+        });
+
+        btn.addEventListener('dblclick', () => {
+          selectedProfId = prof.id;
+          updateContinueLink();
+          window.location.href = continueBtn.href;
+        });
+
+        grid.appendChild(btn);
       });
+    }
+
+    searchInput.addEventListener('input', (e) => {
+      renderProfessions(e.target.value);
     });
 
-    // Filtro de busca em tempo real
-    document.getElementById('search-profession').addEventListener('input', (e) => {
-      const term = e.target.value.toLowerCase();
-      cards.forEach((card) => {
-        const title = card.querySelector('.profession-card__title').textContent.toLowerCase();
-        card.style.display = title.includes(term) ? 'flex' : 'none';
-      });
-    });
+    renderProfessions();
+    updateContinueLink();
   </script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-PT">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,7 +10,7 @@
 
   <header class="navbar">
     <div class="container navbar__inner">
-      <a href="../home/index.html" class="brand">
+      <a href="../index.html" class="brand">
         <svg class="brand__icon" viewBox="0 0 32 32" fill="none" aria-hidden="true">
           <circle cx="16" cy="16" r="13" stroke="var(--color-primary)" stroke-width="2.2"/>
           <polygon points="16,16 21,10 18,17" fill="var(--color-accent)"/>
@@ -19,67 +19,36 @@
         </svg>
         <span class="brand__text">Bússo<span class="brand__text--accent">lab</span></span>
       </a>
+
+      <nav class="navbar__nav" aria-label="Navegação principal">
+        <a href="../index.html" class="navbar__link">Início</a>
+        <a href="../tela_sobre/index.html" class="navbar__link">Sobre a Solução</a>
+        <a href="../tela_escolha_profissao/index.html" class="navbar__link is-active">Trilhas</a>
+        <a href="../tela_pedir_mentoria/index.html" class="navbar__link">Pedir Mentoria</a>
+        <a href="../tela_mentorias/index.html" class="navbar__link">Mentorias</a>
+        <a href="../tela_cadastro_mentor/index.html" class="navbar__link">Ser Mentor</a>
+        <a href="../tela_mentoria_chat/index.html" class="navbar__link">Chat</a>
+      </nav>
+
+      <a href="../login/index.html" class="user-profile-pill" id="header-user-pill">
+        <span class="user-initials">→</span>
+        <span class="user-name-label">Entrar</span>
+      </a>
     </div>
   </header>
 
   <main class="quiz-main">
     <div class="container container--narrow">
       <div class="quiz-progress">
-        <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
-          <div class="progress-bar__fill" style="width: 90%;"></div>
+        <div class="progress-bar" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" id="quiz-progressbar">
+          <div class="progress-bar__fill" id="quiz-progress-fill" style="width: 20%;"></div>
         </div>
-        <span class="quiz-progress__label">Pergunta 1 de 1</span>
+        <span class="quiz-progress__label" id="quiz-progress-label">Pergunta 1 de 5</span>
       </div>
 
-      <h1 class="quiz-title">Você prefere trabalhar com:</h1>
+      <h1 class="quiz-title" id="quiz-title">Carregando pergunta...</h1>
 
-      <div class="quiz-grid">
-        <button type="button" class="quiz-option is-selected">
-          <span class="icon-badge icon-badge--lg icon-badge--teal">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 3a9 9 0 0 0 0 18c1.1 0 2-.9 2-2 0-.5-.2-1-.5-1.3-.3-.4-.5-.8-.5-1.3 0-1.1.9-2 2-2h2.4c3.1 0 5.6-2.5 5.6-5.6C23 5.5 18.1 3 12 3z"/>
-              <circle cx="7.5" cy="11.5" r="1" fill="currentColor"/>
-              <circle cx="10.5" cy="8.5" r="1" fill="currentColor"/>
-              <circle cx="14.5" cy="8.5" r="1" fill="currentColor"/>
-            </svg>
-          </span>
-          <span class="quiz-option__text">Criar e desenhar coisas visuais</span>
-        </button>
-
-        <button type="button" class="quiz-option">
-          <span class="icon-badge icon-badge--lg icon-badge--purple">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="8 7 3 12 8 17"/>
-              <polyline points="16 7 21 12 16 17"/>
-              <line x1="14" y1="5" x2="10" y2="19"/>
-            </svg>
-          </span>
-          <span class="quiz-option__text">Resolver problemas lógicos</span>
-        </button>
-
-        <button type="button" class="quiz-option">
-          <span class="icon-badge icon-badge--lg icon-badge--mint">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
-              <line x1="7" y1="18" x2="7" y2="14"/>
-              <line x1="12" y1="18" x2="12" y2="10"/>
-              <line x1="17" y1="18" x2="17" y2="6"/>
-            </svg>
-          </span>
-          <span class="quiz-option__text">Analisar números e dados</span>
-        </button>
-
-        <button type="button" class="quiz-option">
-          <span class="icon-badge icon-badge--lg icon-badge--blue">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="9" cy="8" r="3.5"/>
-              <path d="M3 19c0-3.3 2.7-6 6-6s6 2.7 6 6"/>
-              <circle cx="17" cy="9" r="2.5"/>
-              <path d="M16 19c0-2.2 1.6-4 3.5-4.3"/>
-            </svg>
-          </span>
-          <span class="quiz-option__text">Conversar e convencer pessoas</span>
-        </button>
-      </div>
+      <div class="quiz-grid" id="quiz-grid"></div>
 
       <p class="quiz-hint">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -87,24 +56,118 @@
           <line x1="12" y1="11" x2="12" y2="16"/>
           <circle cx="12" cy="8" r="0.8" fill="currentColor"/>
         </svg>
-        Não existe resposta certa
+        Não existe resposta certa — escolha o que mais combina com você hoje.
       </p>
 
       <div class="wizard-footer">
-        <a href="../home/index.html" class="btn btn--ghost">← Voltar</a>
-        <a href="../tela_de_resultado/index.html" class="btn btn--accent btn--pill">Continuar →</a>
+        <button type="button" id="quiz-back-btn" class="btn btn--ghost">← Voltar</button>
+        <button type="button" id="quiz-next-btn" class="btn btn--accent btn--pill is-disabled" disabled>Continuar →</button>
       </div>
     </div>
   </main>
 
+  <footer class="footer">
+    <div class="container footer__inner">
+      <span class="footer__brand">
+        <svg width="16" height="16" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <circle cx="16" cy="16" r="13" stroke="currentColor" stroke-width="2.4"/>
+          <polygon points="16,16 21,10 18,17" fill="var(--color-accent)"/>
+        </svg>
+        Bússo<span class="brand__text--accent">lab</span>
+      </span>
+      <span class="footer__divider">|</span>
+      <span>Orientação de carreira e mentorias • MVP</span>
+      <span class="footer__divider">|</span>
+      <div class="footer__socials">
+        <a href="../tela_sobre/index.html" aria-label="Sobre a solução">Sobre</a>
+        <a href="../tela_escolha_profissao/index.html" aria-label="Trilhas">Trilhas</a>
+        <a href="../tela_pedir_mentoria/index.html" aria-label="Mentoria">Mentoria</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/shared.js"></script>
+  <script src="../js/trilhas-data.js"></script>
   <script>
-    const options = document.querySelectorAll('.quiz-option');
-    options.forEach((opt) => {
-      opt.addEventListener('click', () => {
-        options.forEach((o) => o.classList.remove('is-selected'));
-        opt.classList.add('is-selected');
+    const totalQuestions = BUSSOLAB_QUIZ_QUESTIONS.length;
+    let currentStep = 0;
+    const answers = new Array(totalQuestions).fill(null);
+
+    const progressBar = document.getElementById('quiz-progressbar');
+    const progressFill = document.getElementById('quiz-progress-fill');
+    const progressLabel = document.getElementById('quiz-progress-label');
+    const quizTitle = document.getElementById('quiz-title');
+    const quizGrid = document.getElementById('quiz-grid');
+    const backBtn = document.getElementById('quiz-back-btn');
+    const nextBtn = document.getElementById('quiz-next-btn');
+
+    function renderStep() {
+      const q = BUSSOLAB_QUIZ_QUESTIONS[currentStep];
+      const pct = Math.round(((currentStep + 1) / totalQuestions) * 100);
+
+      progressBar.setAttribute('aria-valuenow', pct);
+      progressFill.style.width = `${pct}%`;
+      progressLabel.textContent = `Pergunta ${currentStep + 1} de ${totalQuestions}`;
+      quizTitle.textContent = q.pergunta;
+
+      quizGrid.innerHTML = '';
+      q.opcoes.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'quiz-option' + (answers[currentStep] === idx ? ' is-selected' : '');
+        btn.innerHTML = `
+          <span class="icon-badge icon-badge--lg icon-badge--${opt.color}">
+            ${getIconSvg(opt.icon)}
+          </span>
+          <span class="quiz-option__text">${opt.texto}</span>
+        `;
+        btn.addEventListener('click', () => {
+          answers[currentStep] = idx;
+          quizGrid.querySelectorAll('.quiz-option').forEach((o) => o.classList.remove('is-selected'));
+          btn.classList.add('is-selected');
+          updateButtons();
+        });
+        quizGrid.appendChild(btn);
       });
+
+      updateButtons();
+    }
+
+    function updateButtons() {
+      const hasAnswer = answers[currentStep] !== null;
+      nextBtn.disabled = !hasAnswer;
+      nextBtn.classList.toggle('is-disabled', !hasAnswer);
+      nextBtn.textContent = currentStep === totalQuestions - 1 ? 'Ver minhas áreas →' : 'Continuar →';
+      backBtn.textContent = currentStep === 0 ? '← Voltar ao início' : '← Pergunta anterior';
+    }
+
+    backBtn.addEventListener('click', () => {
+      if (currentStep === 0) {
+        window.location.href = '../index.html';
+      } else {
+        currentStep -= 1;
+        renderStep();
+      }
     });
+
+    nextBtn.addEventListener('click', () => {
+      if (answers[currentStep] === null) return;
+      if (currentStep < totalQuestions - 1) {
+        currentStep += 1;
+        renderStep();
+      } else {
+        const results = calculateQuizResults(answers);
+        try {
+          sessionStorage.setItem('bussolab_quiz_results', JSON.stringify(results));
+        } catch {
+          // fallback via URL
+        }
+        const encoded = results.map((r) => `${r.trackId}:${r.affinity}`).join(',');
+        window.location.href = `../tela_de_resultado/index.html?res=${encodeURIComponent(encoded)}`;
+      }
+    });
+
+    renderStep();
   </script>
 </body>
 </html>

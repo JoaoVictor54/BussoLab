@@ -10,7 +10,7 @@
 
   <header class="navbar">
     <div class="container navbar__inner">
-      <a href="../tela_mentorias/index.html" class="brand">
+      <a href="../index.html" class="brand">
         <svg class="brand__icon" viewBox="0 0 32 32" fill="none" aria-hidden="true">
           <circle cx="16" cy="16" r="13" stroke="var(--color-primary)" stroke-width="2.2"/>
           <polygon points="16,16 21,10 18,17" fill="var(--color-accent)"/>
@@ -20,7 +20,20 @@
         <span class="brand__text">Bússo<span class="brand__text--accent">lab</span></span>
       </a>
 
-      <a href="../tela_cadastro_mentor/index.html" class="btn btn--accent btn--sm btn--pill">Começar</a>
+      <nav class="navbar__nav" aria-label="Navegação principal">
+        <a href="../index.html" class="navbar__link">Início</a>
+        <a href="../tela_sobre/index.html" class="navbar__link">Sobre a Solução</a>
+        <a href="../tela_escolha_profissao/index.html" class="navbar__link">Trilhas</a>
+        <a href="../tela_pedir_mentoria/index.html" class="navbar__link">Pedir Mentoria</a>
+        <a href="../tela_mentorias/index.html" class="navbar__link is-active">Mentorias</a>
+        <a href="../tela_cadastro_mentor/index.html" class="navbar__link">Ser Mentor</a>
+        <a href="../tela_mentoria_chat/index.html" class="navbar__link">Chat</a>
+      </nav>
+
+      <a href="../login/index.html" class="user-profile-pill" id="header-user-pill">
+        <span class="user-initials">→</span>
+        <span class="user-name-label">Entrar</span>
+      </a>
     </div>
   </header>
 
@@ -30,6 +43,10 @@
         <div>
           <h1 class="requests-hero__title">Requisições de mentoria</h1>
           <p class="requests-hero__subtitle">Conecte-se com estudantes que buscam orientação para dar o próximo passo na carreira.</p>
+          <div style="margin-top: 16px; display: flex; flex-wrap: wrap; gap: 10px;">
+            <a href="../tela_pedir_mentoria/index.html" class="btn btn--accent btn--sm btn--pill">+ Nova requisição</a>
+            <a href="../tela_cadastro_mentor/index.html" class="btn btn--outline btn--sm btn--pill">Quero ser mentor</a>
+          </div>
         </div>
 
         <svg class="requests-hero__art" viewBox="0 0 240 115" fill="none" aria-hidden="true">
@@ -47,140 +64,32 @@
         </svg>
       </div>
 
+      <div class="alert-banner" id="requests-feedback" role="status" aria-live="polite" style="margin-bottom: 16px;"></div>
+
       <div class="requests-toolbar">
-        <div class="filter-pills">
-          <button type="button" class="filter-pill is-active">Todas</button>
-          <button type="button" class="filter-pill">Minha área</button>
-          <button type="button" class="filter-pill">Novas</button>
+        <div class="filter-pills" role="group" aria-label="Filtrar por status">
+          <button type="button" class="filter-pill is-active" data-filter="todas">Todas</button>
+          <button type="button" class="filter-pill" data-filter="Em análise">Em análise</button>
+          <button type="button" class="filter-pill" data-filter="Aceita">Aceitas</button>
+          <button type="button" class="filter-pill" data-filter="Recusada">Recusadas</button>
         </div>
 
-        <span class="requests-count">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="9" cy="8" r="3"/>
-            <path d="M3 19c0-3 2.7-5 6-5s6 2 6 5"/>
-            <circle cx="17" cy="9" r="2.2"/>
-            <path d="M15.5 19c.4-2 1.8-3.5 4-3.5"/>
-          </svg>
-          12 requisições
-        </span>
+        <div class="requests-toolbar__right">
+          <input type="search" id="requests-search" class="requests-search" placeholder="Buscar por nome ou área..." aria-label="Buscar requisição" />
+
+          <span class="requests-count" id="requests-count">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="9" cy="8" r="3"/>
+              <path d="M3 19c0-3 2.7-5 6-5s6 2 6 5"/>
+              <circle cx="17" cy="9" r="2.2"/>
+              <path d="M15.5 19c.4-2 1.8-3.5 4-3.5"/>
+            </svg>
+            <span id="requests-count-text">0 requisições</span>
+          </span>
+        </div>
       </div>
 
-      <div class="requests-list">
-        <article class="request-row">
-          <div class="request-row__user">
-            <span class="avatar-circle">
-              <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-3.8 3.1-6.5 7-6.5s7 2.7 7 6.5"/></svg>
-            </span>
-            <div>
-              <h2>Ana Oliveira</h2>
-              <span class="area-tag">Tecnologia</span>
-            </div>
-          </div>
-
-          <p class="request-row__msg">Quero migrar para tecnologia, por onde começo?</p>
-
-          <span class="request-row__time">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>
-            Há 2 horas
-          </span>
-
-          <button type="button" class="btn btn--accent btn--sm btn--pill" onclick="openModal('Ana Oliveira', 'Tecnologia', 'Estudante de Ciência da Computação, no 4º semestre.', 'Desenvolvimento de Software', 'Conquistar uma vaga como desenvolvedora júnior.', 'Olá! Tenho muito interesse em seguir carreira na área de tecnologia, mas não sei por onde começar. Gostaria de conversar com um mentor para entender melhor as possibilidades e receber dicas.')">
-            Ver requisição
-          </button>
-        </article>
-
-        <article class="request-row">
-          <div class="request-row__user">
-            <span class="avatar-circle">
-              <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-3.8 3.1-6.5 7-6.5s7 2.7 7 6.5"/></svg>
-            </span>
-            <div>
-              <h2>Lucas Ferreira</h2>
-              <span class="area-tag">Marketing</span>
-            </div>
-          </div>
-
-          <p class="request-row__msg">Gostaria de me desenvolver em marketing digital. Pode me orientar?</p>
-
-          <span class="request-row__time">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>
-            Há 3 horas
-          </span>
-
-          <button type="button" class="btn btn--accent btn--sm btn--pill" onclick="openModal('Lucas Ferreira', 'Marketing', 'Recém-formado em Comunicação Social.', 'Marketing Digital e Performance', 'Conseguir a primeira oportunidade na área.', 'Gostaria de me desenvolver em marketing digital. Pode me orientar sobre portfólio e certificações?')">
-            Ver requisição
-          </button>
-        </article>
-
-        <article class="request-row">
-          <div class="request-row__user">
-            <span class="avatar-circle">
-              <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-3.8 3.1-6.5 7-6.5s7 2.7 7 6.5"/></svg>
-            </span>
-            <div>
-              <h2>Mariana Santos</h2>
-              <span class="area-tag">Design</span>
-            </div>
-          </div>
-
-          <p class="request-row__msg">Estou pensando em seguir carreira em UX/UI. Quais são os primeiros passos?</p>
-
-          <span class="request-row__time">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>
-            Há 5 horas
-          </span>
-
-          <button type="button" class="btn btn--accent btn--sm btn--pill" onclick="openModal('Mariana Santos', 'Design', 'Designer gráfico em transição de carreira.', 'UX/UI Design', 'Montar meu primeiro estudo de caso em UX.', 'Estou pensando em seguir carreira em UX/UI. Quais são os primeiros passos?')">
-            Ver requisição
-          </button>
-        </article>
-
-        <article class="request-row">
-          <div class="request-row__user">
-            <span class="avatar-circle">
-              <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-3.8 3.1-6.5 7-6.5s7 2.7 7 6.5"/></svg>
-            </span>
-            <div>
-              <h2>Rafael Costa</h2>
-              <span class="area-tag">Dados</span>
-            </div>
-          </div>
-
-          <p class="request-row__msg">Tenho interesse em análise de dados, mas não sei por onde começar.</p>
-
-          <span class="request-row__time">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>
-            Há 6 horas
-          </span>
-
-          <button type="button" class="btn btn--accent btn--sm btn--pill" onclick="openModal('Rafael Costa', 'Dados', 'Estudante de Engenharia de Produção.', 'Análise de Dados', 'Aprender SQL, Python e Power BI na prática.', 'Tenho interesse em análise de dados, mas não sei por onde começar.')">
-            Ver requisição
-          </button>
-        </article>
-
-        <article class="request-row">
-          <div class="request-row__user">
-            <span class="avatar-circle">
-              <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-3.8 3.1-6.5 7-6.5s7 2.7 7 6.5"/></svg>
-            </span>
-            <div>
-              <h2>Juliana Martins</h2>
-              <span class="area-tag">Gestão de Projetos</span>
-            </div>
-          </div>
-
-          <p class="request-row__msg">Quero me especializar em gestão de projetos. Qual curso você recomenda?</p>
-
-          <span class="request-row__time">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>
-            Há 1 dia
-          </span>
-
-          <button type="button" class="btn btn--accent btn--sm btn--pill" onclick="openModal('Juliana Martins', 'Gestão de Projetos', 'Analista administrativa com 2 anos de experiência.', 'Gestão Ágil de Projetos', 'Assumir liderança de squads de produto.', 'Quero me especializar em gestão de projetos. Qual curso você recomenda?')">
-            Ver requisição
-          </button>
-        </article>
-      </div>
+      <div class="requests-list" id="requests-list"></div>
     </div>
   </main>
 
@@ -194,7 +103,10 @@
         </span>
         <div>
           <h2 id="modal-user-name">Ana Oliveira</h2>
-          <span class="area-tag" id="modal-user-area">Tecnologia</span>
+          <div style="display: flex; align-items: center; gap: 8px; margin-top: 4px; flex-wrap: wrap;">
+            <span class="area-tag" id="modal-user-area">Front-end</span>
+            <span class="status-badge status-badge--pending" id="modal-user-status">Em análise</span>
+          </div>
         </div>
       </div>
 
@@ -205,7 +117,7 @@
           </span>
           <div>
             <strong>Situação atual</strong>
-            <p id="modal-situation">Estudante de Ciência da Computação, no 4º semestre.</p>
+            <p id="modal-situation">—</p>
           </div>
         </div>
 
@@ -214,8 +126,8 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>
           </span>
           <div>
-            <strong>Área desejada</strong>
-            <p id="modal-desired">Desenvolvimento de Software</p>
+            <strong>Formato preferido</strong>
+            <p id="modal-format">Chat</p>
           </div>
         </div>
 
@@ -225,7 +137,7 @@
           </span>
           <div>
             <strong>Objetivo</strong>
-            <p id="modal-goal">Conquistar uma vaga como desenvolvedora júnior.</p>
+            <p id="modal-goal">—</p>
           </div>
         </div>
 
@@ -235,41 +147,213 @@
           </span>
           <div class="detail-item__full">
             <strong>Mensagem</strong>
-            <div class="message-box" id="modal-message">
-              Olá! Tenho muito interesse em seguir carreira na área de tecnologia, mas não sei por onde começar. Gostaria de conversar com um mentor para entender melhor as possibilidades e receber dicas.
-            </div>
+            <div class="message-box" id="modal-message">—</div>
           </div>
         </div>
       </div>
 
       <div class="modal-actions">
-        <a href="../tela_mentoria_chat/index.html" class="btn btn--accent btn--pill">Aceitar requisição</a>
-        <button type="button" class="btn btn--outline btn--pill" onclick="closeModal()">Recusar</button>
+        <button type="button" id="modal-accept-btn" class="btn btn--accent btn--pill">Aceitar requisição</button>
+        <button type="button" id="modal-reject-btn" class="btn btn--outline btn--pill">Recusar</button>
+      </div>
+
+      <div style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center; gap: 10px;">
+        <a id="modal-chat-link" href="../tela_mentoria_chat/index.html" class="btn-cancel-link" style="color: var(--color-accent);">Abrir chat →</a>
+        <button type="button" id="modal-delete-btn" class="btn btn--danger-outline btn--sm btn--pill">Excluir</button>
       </div>
 
       <p class="modal-footnote">
         <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><text x="12" y="16" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">i</text></svg>
-        Ao aceitar, vocês entram em um chat.
+        Ao aceitar, o mentorado aparece disponível no chat de mentoria.
       </p>
     </div>
   </div>
 
+  <footer class="footer">
+    <div class="container footer__inner">
+      <span class="footer__brand">
+        <svg width="16" height="16" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <circle cx="16" cy="16" r="13" stroke="currentColor" stroke-width="2.4"/>
+          <polygon points="16,16 21,10 18,17" fill="var(--color-accent)"/>
+        </svg>
+        Bússo<span class="brand__text--accent">lab</span>
+      </span>
+      <span class="footer__divider">|</span>
+      <span>Orientação de carreira e mentorias • MVP</span>
+      <span class="footer__divider">|</span>
+      <div class="footer__socials">
+        <a href="../tela_sobre/index.html" aria-label="Sobre a solução">Sobre</a>
+        <a href="../tela_escolha_profissao/index.html" aria-label="Trilhas">Trilhas</a>
+        <a href="../tela_pedir_mentoria/index.html" aria-label="Mentoria">Mentoria</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/shared.js"></script>
   <script>
+    // Dados de demonstração (Fase 1). Na Fase 2 serão carregados via GET/PATCH/DELETE na API.
+    let demoRequests = [
+      {
+        id: 'demo-1',
+        autor: 'Ana Oliveira',
+        area: 'Front-end',
+        situacao: 'Estudante',
+        objetivo: 'Conquistar uma vaga como desenvolvedora júnior.',
+        mensagem: 'Quero migrar para tecnologia, por onde começo com HTML, CSS e JavaScript?',
+        formato: 'Chat',
+        status: 'Em análise',
+        tempo: 'Há 2 horas'
+      },
+      {
+        id: 'demo-2',
+        autor: 'Lucas Ferreira',
+        area: 'Marketing Digital',
+        situacao: 'Recém-formado',
+        objetivo: 'Conseguir a primeira oportunidade na área.',
+        mensagem: 'Gostaria de me desenvolver em marketing digital. Pode me orientar sobre portfólio?',
+        formato: 'Videochamada',
+        status: 'Aceita',
+        tempo: 'Há 3 horas'
+      },
+      {
+        id: 'demo-3',
+        autor: 'Mariana Santos',
+        area: 'UX/UI Design',
+        situacao: 'Em transição de carreira',
+        objetivo: 'Montar meu primeiro estudo de caso em UX.',
+        mensagem: 'Estou pensando em seguir carreira em UX/UI. Quais são os primeiros passos?',
+        formato: 'Chat',
+        status: 'Em análise',
+        tempo: 'Há 5 horas'
+      },
+      {
+        id: 'demo-4',
+        autor: 'Rafael Costa',
+        area: 'Análise de Dados & BI',
+        situacao: 'Estudante',
+        objetivo: 'Aprender SQL, Python e Power BI na prática.',
+        mensagem: 'Tenho interesse em análise de dados, mas não sei por onde começar.',
+        formato: 'Chat',
+        status: 'Em análise',
+        tempo: 'Há 6 horas'
+      },
+      {
+        id: 'demo-5',
+        autor: 'Juliana Martins',
+        area: 'Gestão de Projetos',
+        situacao: 'Em transição de carreira',
+        objetivo: 'Assumir liderança ágil de squads de produto.',
+        mensagem: 'Quero me especializar em gestão ágil de projetos. Qual trilha você recomenda?',
+        formato: 'Videochamada',
+        status: 'Recusada',
+        tempo: 'Há 1 dia'
+      }
+    ];
+
+    let activeFilter = 'todas';
+    let searchTerm = '';
+    let selectedReqId = null;
+
+    const listEl = document.getElementById('requests-list');
+    const countTextEl = document.getElementById('requests-count-text');
     const modal = document.getElementById('request-modal');
 
-    function openModal(name, area, situation, desired, goal, message) {
-      document.getElementById('modal-user-name').textContent = name;
-      document.getElementById('modal-user-area').textContent = area;
-      document.getElementById('modal-situation').textContent = situation;
-      document.getElementById('modal-desired').textContent = desired;
-      document.getElementById('modal-goal').textContent = goal;
-      document.getElementById('modal-message').textContent = message;
+    function getStatusClass(status) {
+      if (status === 'Aceita') return 'status-badge--accepted';
+      if (status === 'Recusada') return 'status-badge--rejected';
+      return 'status-badge--pending';
+    }
+
+    function renderRequests() {
+      const filtered = demoRequests.filter((item) => {
+        const matchesStatus = activeFilter === 'todas' || item.status === activeFilter;
+        const q = searchTerm.trim().toLowerCase();
+        const matchesSearch = !q ||
+          item.autor.toLowerCase().includes(q) ||
+          item.area.toLowerCase().includes(q) ||
+          item.mensagem.toLowerCase().includes(q);
+        return matchesStatus && matchesSearch;
+      });
+
+      countTextEl.textContent = `${filtered.length} ${filtered.length === 1 ? 'requisição' : 'requisições'}`;
+      listEl.innerHTML = '';
+
+      if (!filtered.length) {
+        listEl.innerHTML = `<div class="state-box">Nenhuma requisição encontrada com os filtros atuais.</div>`;
+        return;
+      }
+
+      filtered.forEach((req) => {
+        const row = document.createElement('article');
+        row.className = 'request-row';
+        row.innerHTML = `
+          <div class="request-row__user">
+            <span class="avatar-circle">
+              <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-3.8 3.1-6.5 7-6.5s7 2.7 7 6.5"/></svg>
+            </span>
+            <div>
+              <h2>${req.autor}</h2>
+              <span class="area-tag">${req.area}</span>
+            </div>
+          </div>
+
+          <p class="request-row__msg">${req.mensagem}</p>
+
+          <div class="request-row__meta">
+            <span class="status-badge ${getStatusClass(req.status)}">${req.status}</span>
+            <span class="request-row__time">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>
+              ${req.tempo}
+            </span>
+          </div>
+
+          <button type="button" class="btn btn--accent btn--sm btn--pill">Ver requisição</button>
+        `;
+
+        row.querySelector('button').addEventListener('click', () => openModal(req));
+        listEl.appendChild(row);
+      });
+    }
+
+    function openModal(req) {
+      selectedReqId = req.id;
+      document.getElementById('modal-user-name').textContent = req.autor;
+      document.getElementById('modal-user-area').textContent = req.area;
+      const statusEl = document.getElementById('modal-user-status');
+      statusEl.textContent = req.status;
+      statusEl.className = `status-badge ${getStatusClass(req.status)}`;
+      document.getElementById('modal-situation').textContent = req.situacao;
+      document.getElementById('modal-format').textContent = req.formato;
+      document.getElementById('modal-goal').textContent = req.objetivo;
+      document.getElementById('modal-message').textContent = req.mensagem;
+      document.getElementById('modal-chat-link').href =
+        `../tela_mentoria_chat/index.html?conversa=${encodeURIComponent(req.id)}`;
       modal.classList.add('is-open');
     }
 
     function closeModal() {
       modal.classList.remove('is-open');
     }
+
+    document.getElementById('modal-accept-btn').addEventListener('click', () => {
+      const target = demoRequests.find((r) => r.id === selectedReqId);
+      if (target) target.status = 'Aceita';
+      closeModal();
+      renderRequests();
+    });
+
+    document.getElementById('modal-reject-btn').addEventListener('click', () => {
+      const target = demoRequests.find((r) => r.id === selectedReqId);
+      if (target) target.status = 'Recusada';
+      closeModal();
+      renderRequests();
+    });
+
+    document.getElementById('modal-delete-btn').addEventListener('click', () => {
+      demoRequests = demoRequests.filter((r) => r.id !== selectedReqId);
+      closeModal();
+      renderRequests();
+    });
 
     modal.addEventListener('click', (e) => {
       if (e.target === modal) closeModal();
@@ -279,8 +363,17 @@
       pill.addEventListener('click', () => {
         document.querySelectorAll('.filter-pill').forEach((p) => p.classList.remove('is-active'));
         pill.classList.add('is-active');
+        activeFilter = pill.dataset.filter;
+        renderRequests();
       });
     });
+
+    document.getElementById('requests-search').addEventListener('input', (e) => {
+      searchTerm = e.target.value;
+      renderRequests();
+    });
+
+    renderRequests();
   </script>
 </body>
 </html>
