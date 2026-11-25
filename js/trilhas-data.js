@@ -1,7 +1,3 @@
-/* =========================================================
-   BÚSSOLAB — Catálogo Completo de Profissões, Trilhas e Quiz
-========================================================= */
-
 const BUSSOLAB_ICONS = {
   code: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="8 7 3 12 8 17"/><polyline points="16 7 21 12 16 17"/><line x1="14" y1="5" x2="10" y2="19"/></svg>`,
   server: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="5" width="16" height="5" rx="1.5"/><rect x="4" y="14" width="16" height="5" rx="1.5"/><circle cx="7.5" cy="7.5" r="0.8" fill="currentColor"/><circle cx="7.5" cy="16.5" r="0.8" fill="currentColor"/></svg>`,
@@ -35,7 +31,7 @@ const BUSSOLAB_PROFESSIONS = [
 ];
 
 const BUSSOLAB_TRACKS = {
-  // ===== 1. DESENVOLVIMENTO =====
+
   'frontend': {
     id: 'frontend',
     profissaoId: 'desenvolvimento',
@@ -139,7 +135,6 @@ const BUSSOLAB_TRACKS = {
     ]
   },
 
-  // ===== 2. DESIGN =====
   'ux-ui': {
     id: 'ux-ui',
     profissaoId: 'design',
@@ -209,7 +204,6 @@ const BUSSOLAB_TRACKS = {
     ]
   },
 
-  // ===== 3. ANÁLISE DE DADOS =====
   'analise-dados': {
     id: 'analise-dados',
     profissaoId: 'dados',
@@ -262,7 +256,6 @@ const BUSSOLAB_TRACKS = {
     ]
   },
 
-  // ===== 4. MARKETING DIGITAL =====
   'trafego-pago': {
     id: 'trafego-pago',
     profissaoId: 'marketing',
@@ -332,7 +325,6 @@ const BUSSOLAB_TRACKS = {
     ]
   },
 
-  // ===== 5. GESTÃO DE PROJETOS =====
   'gestao-agil': {
     id: 'gestao-agil',
     profissaoId: 'gestao-projetos',
@@ -385,7 +377,6 @@ const BUSSOLAB_TRACKS = {
     ]
   },
 
-  // ===== 6. FINANÇAS =====
   'planejamento-financeiro': {
     id: 'planejamento-financeiro',
     profissaoId: 'financas',
@@ -438,7 +429,6 @@ const BUSSOLAB_TRACKS = {
     ]
   },
 
-  // ===== 7. REDES E SEGURANÇA =====
   'ciberseguranca': {
     id: 'ciberseguranca',
     profissaoId: 'redes-seguranca',
@@ -491,7 +481,6 @@ const BUSSOLAB_TRACKS = {
     ]
   },
 
-  // ===== 8. PRODUTO =====
   'product-management': {
     id: 'product-management',
     profissaoId: 'produto',
@@ -545,7 +534,6 @@ const BUSSOLAB_TRACKS = {
   }
 };
 
-// ===== QUIZ DE CARREIRA (5 PERGUNTAS REAIS) =====
 const BUSSOLAB_QUIZ_QUESTIONS = [
   {
     id: 1,
@@ -641,7 +629,7 @@ function calculateQuizResults(selectedOptionIndices) {
 
   return sorted.map(([trackId, score], index) => {
     const ratio = score / maxScore;
-    // Gera afinidade realista entre 74% e 96%
+
     const affinity = Math.min(96, Math.max(72, Math.round(74 + ratio * 20 - index * 3)));
     return { trackId, affinity };
   });

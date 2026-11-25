@@ -39,7 +39,7 @@
 
   <main class="mentor-main">
     <div class="container">
-      <!-- Topo com título e ilustração de mentores -->
+
       <div class="banner-header">
         <div>
           <h1 class="banner-header__title">Cadastro de mentor</h1>
@@ -63,11 +63,9 @@
         </div>
       </div>
 
-      <!-- Card do Formulário -->
       <form class="mentor-form-card" id="mentor-form">
         <div class="alert-banner" id="mentor-feedback" role="status" aria-live="polite" style="margin-bottom: 20px;"></div>
 
-        <!-- Seção 1: Dados pessoais -->
         <section class="form-section">
           <div class="form-section__header">
             <span class="circle-icon">
@@ -109,7 +107,6 @@
 
         <hr class="section-divider" />
 
-        <!-- Seção 2: Diplomas e certificações (Simulado no MVP) -->
         <section class="form-section">
           <div class="form-section__header">
             <span class="circle-icon">
@@ -151,7 +148,6 @@
 
         <hr class="section-divider" />
 
-        <!-- Seção 3: Disponibilidade -->
         <section class="form-section">
           <div class="form-section__header">
             <span class="circle-icon">
@@ -201,7 +197,6 @@
         </div>
       </form>
 
-      <!-- Seção de Mentores Cadastrados (GET / PATCH / DELETE na API) -->
       <section class="mentors-section">
         <div class="mentors-section__header">
           <h2 class="section-title">Mentores cadastrados</h2>
@@ -371,16 +366,14 @@
           </div>
         `;
 
-        // PATCH /api/bussolab/mentores/{id} (carrega dados no formulário)
         card.querySelector('.icon-edit-btn').addEventListener('click', () => {
           startEditMentor(mentor);
         });
 
-        // DELETE /api/bussolab/mentores/{id}
         card.querySelector('.icon-delete-btn').addEventListener('click', async () => {
           if (!confirm(`Deseja remover o cadastro do mentor "${mentor.nome}"?`)) return;
           try {
-            await apiDelete('mentores', mentor.id);
+            await deleteRecord('mentores', mentor.id);
             if (String(editingMentorId) === String(mentor.id)) {
               exitEditMode(false);
             }
@@ -395,11 +388,10 @@
       });
     }
 
-    // GET /api/bussolab/mentores
     async function loadMentors() {
       mentorsListEl.innerHTML = `<div class="state-box" style="grid-column: 1 / -1;">Carregando mentores da API...</div>`;
       try {
-        allMentors = sortByDateDesc(await apiList('mentores'));
+        allMentors = sortRecordsByNewest(await fetchCollection('mentores'));
         renderMentors(mentorsSearchInput.value);
       } catch (err) {
         mentorsListEl.innerHTML = `<div class="state-box" style="grid-column: 1 / -1;">Erro ao carregar mentores: ${escapeHtml(err.message)}</div>`;
@@ -455,7 +447,6 @@
       if (e.dataTransfer.files.length) addFiles(e.dataTransfer.files);
     });
 
-    // POST /api/bussolab/mentores ou PATCH /api/bussolab/mentores/{id}
     mentorForm.addEventListener('submit', async (e) => {
       e.preventDefault();
 
@@ -479,11 +470,11 @@
 
       try {
         if (isEditing) {
-          await apiUpdate('mentores', editingMentorId, payload);
+          await updateRecord('mentores', editingMentorId, payload);
           exitEditMode(false);
           showMentorFeedback(`Perfil do mentor "${payload.nome}" atualizado com sucesso!`, 'success');
         } else {
-          await apiCreate('mentores', payload);
+          await createRecord('mentores', payload);
           mentorForm.reset();
           showMentorFeedback(`Mentor "${payload.nome}" cadastrado com sucesso na API!`, 'success');
         }

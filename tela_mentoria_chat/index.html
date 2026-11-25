@@ -163,7 +163,7 @@
     const refreshBtn = document.getElementById('chat-refresh-btn');
 
     function getMessagesForThread(threadId) {
-      return sortByDateAsc(allMessages.filter((m) => String(m.requisicaoId) === String(threadId)));
+      return sortRecordsByOldest(allMessages.filter((m) => String(m.requisicaoId) === String(threadId)));
     }
 
     function renderThreads(search = '') {
@@ -195,7 +195,7 @@
         const msgs = getMessagesForThread(thread.id);
         const lastMsg = msgs[msgs.length - 1];
         const previewText = lastMsg ? lastMsg.texto : (thread.mensagem || 'Inicie a conversa...');
-        const timeText = lastMsg ? formatTimeHHMM(lastMsg.createdAt) : formatShortDate(thread.createdAt);
+        const timeText = lastMsg ? formatTime(lastMsg.createdAt) : formatShortDate(thread.createdAt);
 
         const btn = document.createElement('button');
         btn.type = 'button';
@@ -290,30 +290,27 @@
 
       messagesEl.innerHTML = '';
 
-      // Exibe a mensagem inicial da requisição como abertura da conversa
       if (thread.mensagem) {
         appendMessageBubble('mentorado', thread.mensagem, formatShortDate(thread.createdAt));
       }
 
       const msgs = getMessagesForThread(thread.id);
       msgs.forEach((msg) => {
-        appendMessageBubble(msg.remetente || 'mentor', msg.texto || '', formatTimeHHMM(msg.createdAt) || 'Recente');
+        appendMessageBubble(msg.remetente || 'mentor', msg.texto || '', formatTime(msg.createdAt) || 'Recente');
       });
 
       messagesEl.scrollTop = messagesEl.scrollHeight;
     }
 
-    // GET /api/bussolab/requisicoes + GET /api/bussolab/mensagens
     async function loadChatData() {
       refreshBtn.disabled = true;
       try {
         const [reqList, msgList] = await Promise.all([
-          apiList('requisicoes'),
-          apiList('mensagens')
+          fetchCollection('requisicoes'),
+          fetchCollection('mensagens')
         ]);
 
-        // Prioriza requisições aceitas primeiro, depois as demais por data mais recente
-        threads = sortByDateDesc(reqList).sort((a, b) => {
+        threads = sortRecordsByNewest(reqList).sort((a, b) => {
           const aAcc = a.status === 'Aceita' ? 1 : 0;
           const bAcc = b.status === 'Aceita' ? 1 : 0;
           return bAcc - aAcc;
@@ -348,7 +345,6 @@
 
     refreshBtn.addEventListener('click', loadChatData);
 
-    // POST /api/bussolab/mensagens
     document.getElementById('chat-composer').addEventListener('submit', async (e) => {
       e.preventDefault();
       const texto = chatInput.value.trim();
@@ -358,7 +354,7 @@
       chatInput.disabled = true;
 
       try {
-        await apiCreate('mensagens', {
+        await createRecord('mensagens', {
           requisicaoId: activeThreadId,
           remetente: currentRole,
           texto

@@ -160,7 +160,7 @@
         try {
           sessionStorage.setItem('bussolab_quiz_results', JSON.stringify(results));
         } catch {
-          // fallback via URL
+
         }
         const encoded = results.map((r) => `${r.trackId}:${r.affinity}`).join(',');
         window.location.href = `../tela_de_resultado/index.html?res=${encodeURIComponent(encoded)}`;

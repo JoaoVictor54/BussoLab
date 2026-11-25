@@ -280,11 +280,10 @@
       });
     }
 
-    // GET /api/bussolab/requisicoes
     async function loadRequests() {
       listEl.innerHTML = `<div class="state-box">Carregando requisições da API...</div>`;
       try {
-        allRequests = sortByDateDesc(await apiList('requisicoes'));
+        allRequests = sortRecordsByNewest(await fetchCollection('requisicoes'));
         renderRequests();
       } catch (err) {
         countTextEl.textContent = '0 requisições';
@@ -319,12 +318,11 @@
       deleteBtn.disabled = isBusy;
     }
 
-    // PATCH /api/bussolab/requisicoes/{id}
     async function updateStatus(newStatus) {
       if (!selectedReq) return;
       setModalBusy(true);
       try {
-        await apiUpdate('requisicoes', selectedReq.id, { status: newStatus });
+        await updateRecord('requisicoes', selectedReq.id, { status: newStatus });
         closeModal();
         showFeedback(`Requisição de ${selectedReq.autor || 'mentoria'} atualizada para "${newStatus}".`, 'success');
         await loadRequests();
@@ -338,14 +336,13 @@
     acceptBtn.addEventListener('click', () => updateStatus('Aceita'));
     rejectBtn.addEventListener('click', () => updateStatus('Recusada'));
 
-    // DELETE /api/bussolab/requisicoes/{id}
     deleteBtn.addEventListener('click', async () => {
       if (!selectedReq) return;
       if (!confirm(`Deseja excluir permanentemente a requisição de ${selectedReq.autor || 'mentoria'}?`)) return;
 
       setModalBusy(true);
       try {
-        await apiDelete('requisicoes', selectedReq.id);
+        await deleteRecord('requisicoes', selectedReq.id);
         closeModal();
         showFeedback('Requisição excluída com sucesso.', 'info');
         await loadRequests();

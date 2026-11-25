@@ -53,7 +53,7 @@
       </header>
 
       <div class="mentee-request-grid">
-        <!-- Coluna Esquerda: Formulário -->
+
         <div>
           <form class="mentee-form-card" id="mentee-request-form">
             <div class="alert-banner" id="form-feedback" role="status" aria-live="polite"></div>
@@ -177,7 +177,6 @@
           </p>
         </div>
 
-        <!-- Coluna Direita: Suas Requisições (integrado via GET e DELETE na API) -->
         <aside class="my-requests-card">
           <h2 class="my-requests-card__title">Requisições recentes</h2>
 
@@ -232,13 +231,11 @@
       return 'status-badge--pending';
     }
 
-    // Pré-preenche nome do usuário simulado, se houver
     const storedUser = getStoredUser();
     if (storedUser && storedUser.nome) {
       document.getElementById('req-author').value = storedUser.nome;
     }
 
-    // Pré-seleciona área vinda da URL (?area=...)
     const urlArea = new URLSearchParams(window.location.search).get('area');
     if (urlArea) {
       const areaSelect = document.getElementById('req-area');
@@ -272,11 +269,10 @@
       });
     });
 
-    // GET /api/bussolab/requisicoes
     async function loadRecentRequests() {
       listEl.innerHTML = `<div class="state-box">Carregando requisições...</div>`;
       try {
-        const data = sortByDateDesc(await apiList('requisicoes'));
+        const data = sortRecordsByNewest(await fetchCollection('requisicoes'));
         if (!data.length) {
           listEl.innerHTML = `<div class="state-box">Nenhuma requisição cadastrada ainda. Envie a primeira ao lado!</div>`;
           return;
@@ -303,7 +299,7 @@
           article.querySelector('.icon-delete-btn').addEventListener('click', async () => {
             if (!confirm(`Deseja remover a requisição de ${item.area || 'mentoria'}?`)) return;
             try {
-              await apiDelete('requisicoes', item.id);
+              await deleteRecord('requisicoes', item.id);
               showFeedback('Requisição removida com sucesso.', 'info');
               await loadRecentRequests();
             } catch (err) {
@@ -318,7 +314,6 @@
       }
     }
 
-    // POST /api/bussolab/requisicoes
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
@@ -336,7 +331,7 @@
       submitBtn.textContent = 'Enviando...';
 
       try {
-        await apiCreate('requisicoes', payload);
+        await createRecord('requisicoes', payload);
 
         const summaryQuery = new URLSearchParams({
           autor: payload.autor,

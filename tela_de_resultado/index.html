@@ -39,7 +39,7 @@
 
   <main class="results-main">
     <div class="container">
-      <!-- Cabeçalho com troféu ilustrado -->
+
       <div class="results-header">
         <div class="trophy-illustration" aria-hidden="true">
           <svg viewBox="0 0 260 110" fill="none">
@@ -60,7 +60,6 @@
         <p class="results-header__subtitle">Com base nas suas respostas, estas trilhas combinam mais com seu perfil.</p>
       </div>
 
-      <!-- 3 Cards de afinidade dinâmicos -->
       <div class="results-grid" id="results-grid"></div>
 
       <div class="results-actions">
@@ -109,7 +108,7 @@
         const stored = JSON.parse(sessionStorage.getItem('bussolab_quiz_results') || 'null');
         if (Array.isArray(stored) && stored.length) return stored.slice(0, 3);
       } catch {
-        // fallback padrão
+
       }
 
       return [
