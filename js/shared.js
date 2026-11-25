@@ -1,7 +1,3 @@
-/* =========================================================
-   BÚSSOLAB — Utilitários Compartilhados de UI (Client-Side)
-========================================================= */
-
 const BUSSOLAB_USER_KEY = 'bussolab_user';
 
 function getStoredUser() {
@@ -18,7 +14,7 @@ function saveStoredUser(user) {
   try {
     localStorage.setItem(BUSSOLAB_USER_KEY, JSON.stringify(user));
   } catch {
-    // Ignora caso localStorage esteja indisponível
+
   }
 }
 

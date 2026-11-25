@@ -190,73 +190,25 @@
   </footer>
 
   <script src="../js/shared.js"></script>
+  <script src="../js/api.js"></script>
   <script>
-    // Dados de demonstração (Fase 1). Na Fase 2 serão carregados via GET/PATCH/DELETE na API.
-    let demoRequests = [
-      {
-        id: 'demo-1',
-        autor: 'Ana Oliveira',
-        area: 'Front-end',
-        situacao: 'Estudante',
-        objetivo: 'Conquistar uma vaga como desenvolvedora júnior.',
-        mensagem: 'Quero migrar para tecnologia, por onde começo com HTML, CSS e JavaScript?',
-        formato: 'Chat',
-        status: 'Em análise',
-        tempo: 'Há 2 horas'
-      },
-      {
-        id: 'demo-2',
-        autor: 'Lucas Ferreira',
-        area: 'Marketing Digital',
-        situacao: 'Recém-formado',
-        objetivo: 'Conseguir a primeira oportunidade na área.',
-        mensagem: 'Gostaria de me desenvolver em marketing digital. Pode me orientar sobre portfólio?',
-        formato: 'Videochamada',
-        status: 'Aceita',
-        tempo: 'Há 3 horas'
-      },
-      {
-        id: 'demo-3',
-        autor: 'Mariana Santos',
-        area: 'UX/UI Design',
-        situacao: 'Em transição de carreira',
-        objetivo: 'Montar meu primeiro estudo de caso em UX.',
-        mensagem: 'Estou pensando em seguir carreira em UX/UI. Quais são os primeiros passos?',
-        formato: 'Chat',
-        status: 'Em análise',
-        tempo: 'Há 5 horas'
-      },
-      {
-        id: 'demo-4',
-        autor: 'Rafael Costa',
-        area: 'Análise de Dados & BI',
-        situacao: 'Estudante',
-        objetivo: 'Aprender SQL, Python e Power BI na prática.',
-        mensagem: 'Tenho interesse em análise de dados, mas não sei por onde começar.',
-        formato: 'Chat',
-        status: 'Em análise',
-        tempo: 'Há 6 horas'
-      },
-      {
-        id: 'demo-5',
-        autor: 'Juliana Martins',
-        area: 'Gestão de Projetos',
-        situacao: 'Em transição de carreira',
-        objetivo: 'Assumir liderança ágil de squads de produto.',
-        mensagem: 'Quero me especializar em gestão ágil de projetos. Qual trilha você recomenda?',
-        formato: 'Videochamada',
-        status: 'Recusada',
-        tempo: 'Há 1 dia'
-      }
-    ];
-
+    let allRequests = [];
     let activeFilter = 'todas';
     let searchTerm = '';
-    let selectedReqId = null;
+    let selectedReq = null;
 
     const listEl = document.getElementById('requests-list');
     const countTextEl = document.getElementById('requests-count-text');
+    const feedbackEl = document.getElementById('requests-feedback');
     const modal = document.getElementById('request-modal');
+    const acceptBtn = document.getElementById('modal-accept-btn');
+    const rejectBtn = document.getElementById('modal-reject-btn');
+    const deleteBtn = document.getElementById('modal-delete-btn');
+
+    function showFeedback(message, type = 'success') {
+      feedbackEl.textContent = message;
+      feedbackEl.className = `alert-banner alert-banner--${type} is-visible`;
+    }
 
     function getStatusClass(status) {
       if (status === 'Aceita') return 'status-badge--accepted';
@@ -265,18 +217,30 @@
     }
 
     function renderRequests() {
-      const filtered = demoRequests.filter((item) => {
-        const matchesStatus = activeFilter === 'todas' || item.status === activeFilter;
+      const filtered = allRequests.filter((item) => {
+        const status = item.status || 'Em análise';
+        const matchesStatus = activeFilter === 'todas' || status === activeFilter;
         const q = searchTerm.trim().toLowerCase();
         const matchesSearch = !q ||
-          item.autor.toLowerCase().includes(q) ||
-          item.area.toLowerCase().includes(q) ||
-          item.mensagem.toLowerCase().includes(q);
+          (item.autor || '').toLowerCase().includes(q) ||
+          (item.area || '').toLowerCase().includes(q) ||
+          (item.mensagem || '').toLowerCase().includes(q) ||
+          (item.objetivo || '').toLowerCase().includes(q);
         return matchesStatus && matchesSearch;
       });
 
       countTextEl.textContent = `${filtered.length} ${filtered.length === 1 ? 'requisição' : 'requisições'}`;
       listEl.innerHTML = '';
+
+      if (!allRequests.length) {
+        listEl.innerHTML = `
+          <div class="state-box">
+            Ainda não há requisições de mentoria cadastradas.<br />
+            <a href="../tela_pedir_mentoria/index.html" class="btn btn--accent btn--sm btn--pill" style="margin-top: 14px;">Criar primeira requisição</a>
+          </div>
+        `;
+        return;
+      }
 
       if (!filtered.length) {
         listEl.innerHTML = `<div class="state-box">Nenhuma requisição encontrada com os filtros atuais.</div>`;
@@ -284,6 +248,7 @@
       }
 
       filtered.forEach((req) => {
+        const status = req.status || 'Em análise';
         const row = document.createElement('article');
         row.className = 'request-row';
         row.innerHTML = `
@@ -292,18 +257,18 @@
               <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-3.8 3.1-6.5 7-6.5s7 2.7 7 6.5"/></svg>
             </span>
             <div>
-              <h2>${req.autor}</h2>
-              <span class="area-tag">${req.area}</span>
+              <h2>${escapeHtml(req.autor || 'Visitante')}</h2>
+              <span class="area-tag">${escapeHtml(req.area || 'Geral')}</span>
             </div>
           </div>
 
-          <p class="request-row__msg">${req.mensagem}</p>
+          <p class="request-row__msg">${escapeHtml(req.mensagem || req.objetivo || 'Sem mensagem')}</p>
 
           <div class="request-row__meta">
-            <span class="status-badge ${getStatusClass(req.status)}">${req.status}</span>
+            <span class="status-badge ${getStatusClass(status)}">${escapeHtml(status)}</span>
             <span class="request-row__time">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>
-              ${req.tempo}
+              ${escapeHtml(formatRelativeTime(req.createdAt))}
             </span>
           </div>
 
@@ -315,17 +280,29 @@
       });
     }
 
+    async function loadRequests() {
+      listEl.innerHTML = `<div class="state-box">Carregando requisições da API...</div>`;
+      try {
+        allRequests = sortRecordsByNewest(await fetchCollection('requisicoes'));
+        renderRequests();
+      } catch (err) {
+        countTextEl.textContent = '0 requisições';
+        listEl.innerHTML = `<div class="state-box">Erro ao carregar requisições: ${escapeHtml(err.message)}</div>`;
+      }
+    }
+
     function openModal(req) {
-      selectedReqId = req.id;
-      document.getElementById('modal-user-name').textContent = req.autor;
-      document.getElementById('modal-user-area').textContent = req.area;
+      selectedReq = req;
+      const status = req.status || 'Em análise';
+      document.getElementById('modal-user-name').textContent = req.autor || 'Visitante';
+      document.getElementById('modal-user-area').textContent = req.area || 'Geral';
       const statusEl = document.getElementById('modal-user-status');
-      statusEl.textContent = req.status;
-      statusEl.className = `status-badge ${getStatusClass(req.status)}`;
-      document.getElementById('modal-situation').textContent = req.situacao;
-      document.getElementById('modal-format').textContent = req.formato;
-      document.getElementById('modal-goal').textContent = req.objetivo;
-      document.getElementById('modal-message').textContent = req.mensagem;
+      statusEl.textContent = status;
+      statusEl.className = `status-badge ${getStatusClass(status)}`;
+      document.getElementById('modal-situation').textContent = req.situacao || 'Não informada';
+      document.getElementById('modal-format').textContent = req.formato || 'Chat';
+      document.getElementById('modal-goal').textContent = req.objetivo || 'Não informado';
+      document.getElementById('modal-message').textContent = req.mensagem || 'Sem mensagem';
       document.getElementById('modal-chat-link').href =
         `../tela_mentoria_chat/index.html?conversa=${encodeURIComponent(req.id)}`;
       modal.classList.add('is-open');
@@ -335,24 +312,45 @@
       modal.classList.remove('is-open');
     }
 
-    document.getElementById('modal-accept-btn').addEventListener('click', () => {
-      const target = demoRequests.find((r) => r.id === selectedReqId);
-      if (target) target.status = 'Aceita';
-      closeModal();
-      renderRequests();
-    });
+    function setModalBusy(isBusy) {
+      acceptBtn.disabled = isBusy;
+      rejectBtn.disabled = isBusy;
+      deleteBtn.disabled = isBusy;
+    }
 
-    document.getElementById('modal-reject-btn').addEventListener('click', () => {
-      const target = demoRequests.find((r) => r.id === selectedReqId);
-      if (target) target.status = 'Recusada';
-      closeModal();
-      renderRequests();
-    });
+    async function updateStatus(newStatus) {
+      if (!selectedReq) return;
+      setModalBusy(true);
+      try {
+        await updateRecord('requisicoes', selectedReq.id, { status: newStatus });
+        closeModal();
+        showFeedback(`Requisição de ${selectedReq.autor || 'mentoria'} atualizada para "${newStatus}".`, 'success');
+        await loadRequests();
+      } catch (err) {
+        showFeedback(`Não foi possível atualizar status: ${err.message}`, 'error');
+      } finally {
+        setModalBusy(false);
+      }
+    }
 
-    document.getElementById('modal-delete-btn').addEventListener('click', () => {
-      demoRequests = demoRequests.filter((r) => r.id !== selectedReqId);
-      closeModal();
-      renderRequests();
+    acceptBtn.addEventListener('click', () => updateStatus('Aceita'));
+    rejectBtn.addEventListener('click', () => updateStatus('Recusada'));
+
+    deleteBtn.addEventListener('click', async () => {
+      if (!selectedReq) return;
+      if (!confirm(`Deseja excluir permanentemente a requisição de ${selectedReq.autor || 'mentoria'}?`)) return;
+
+      setModalBusy(true);
+      try {
+        await deleteRecord('requisicoes', selectedReq.id);
+        closeModal();
+        showFeedback('Requisição excluída com sucesso.', 'info');
+        await loadRequests();
+      } catch (err) {
+        showFeedback(`Não foi possível excluir: ${err.message}`, 'error');
+      } finally {
+        setModalBusy(false);
+      }
     });
 
     modal.addEventListener('click', (e) => {
@@ -373,7 +371,7 @@
       renderRequests();
     });
 
-    renderRequests();
+    loadRequests();
   </script>
 </body>
 </html>
