@@ -1,6 +1,16 @@
-# Bússolab — Orientação de Carreira, Trilhas e Mentorias
+# 🧭 Bússolab — Orientação de Carreira, Trilhas e Mentorias
 
-Aplicação web funcional desenvolvida com **HTML, CSS e JavaScript puro** integrada à **API genérica da Seed** para o Squad **`bussolab`**.
+> Clareza e futuro para quem está perdido profissionalmente.
+
+Aplicação web funcional desenvolvida com **HTML, CSS e JavaScript puro**, integrada à **API genérica da Seed** para o Squad **`bussolab`**.
+Projeto do **PSEL 27.1 (Seed): 2º Desafio, Desenvolvimento do MVP + Apresentação Final**.
+
+| | |
+|---|---|
+| 🌐 **Aplicação publicada (GitHub Pages)** | https://joaovictor54.github.io/BussoLab/ |
+| 🎨 **Protótipo (Figma)** | https://www.figma.com/design/0jo5VOdKDO8ndyrSBEDGM8/Prototipa%C3%A7%C3%A3o?node-id=17-872&t=Eo1RmKKLjuzQR5sH-1 |
+| 🧩 **Concepção da solução (FigJam)** | https://www.figma.com/board/re6thoOBuxlL9jghNPtR1c/Concep%C3%A7%C3%A3o?node-id=0-1&t=a0udh3AUVu7yr3wQ-1 |
+| 📓 **Página do Notion (MVP Contract)** | https://app.notion.com/p/B-ssoLab-416b097de4d78001bbbec303465f004a?source=copy_link |
 
 ---
 
@@ -9,14 +19,26 @@ Aplicação web funcional desenvolvida com **HTML, CSS e JavaScript puro** integ
 ### O Problema
 Jovens, estudantes e pessoas em transição de carreira frequentemente enfrentam excesso de conteúdo disperso na internet, insegurança sobre qual área combina com seu perfil e falta de acesso a profissionais experientes para orientação prática.
 
+**O que a nossa pesquisa mostrou.** Antes de construir, aplicamos um questionário com pessoas reais (**18 respostas**, sendo 14 universitários). A amostra é pequena, mas mostra um padrão claro:
+
+| Pergunta | Resultado |
+|---|---|
+| Segurança sobre os próximos 6 meses (1 a 5) | Média **2,6**; 15 de 18 marcaram 3 ou menos |
+| Impacto da falta de clareza no estresse e na ansiedade (1 a 10) | Média **7,4**; 13 de 17 respostas foram 7 ou mais |
+| O que mais trava | Falta de contato com quem já trabalha na área (**9**); não saber aproveitar habilidades de outra área (**7**); medo financeiro de começar do zero (**7**); excesso de informação solta (**5**) |
+| Barreira para conseguir mentoria | Custo alto (**9**); dificuldade de encontrar profissionais dispostos a ajudar (**4**); falta de tempo (**4**) |
+| Conteúdo que já consomem | 15 de 18 fazem cursos online |
+
+Em resumo: não falta conteúdo, **falta direção**, e o acesso a quem já está na área é caro ou difícil.
+
 ### Nossa Solução
-O **Bússolab** reúne em um fluxo simples e responsivo:
+O **Bússolab** funciona como um mapa para o próximo passo profissional e reúne, em um fluxo simples e responsivo:
 1. **Quiz de Afinidade Vocacional (5 perguntas):** calcula e recomenda as 3 trilhas mais compatíveis com o perfil do usuário.
 2. **Catálogo de Trilhas por Etapas:** 8 áreas profissionais e 29 sub-áreas/trilhas interativas (5 etapas e 15 tópicos cada), com barra de progresso persistida no navegador (`localStorage`).
 3. **Rede de Mentorias integrada à API:** solicitação de mentoria, painel para mentores gerenciarem requisições, cadastro/listagem de mentores voluntários e chat de mentoria.
 
 ### ODS Impactadas (ONU)
-- **ODS 4 — Educação de Qualidade:** acesso organizado e gratuito a roteiros objetivos de aprendizagem.
+- **ODS 4 — Educação de Qualidade (principal):** acesso organizado e gratuito a roteiros objetivos de aprendizagem.
 - **ODS 8 — Trabalho Decente e Crescimento Econômico:** apoio à preparação prática para estágios, primeiras vagas e transição de carreira.
 - **ODS 10 — Redução das Desigualdades:** democratização do acesso à orientação profissional e mentoria.
 
@@ -31,8 +53,19 @@ O **Bússolab** reúne em um fluxo simples e responsivo:
 ## Integração com a API da Seed
 
 - **Base URL:** `https://psel-api.vercel.app/api/bussolab`
-- **Cliente centralizado:** `js/api.js` (utilizando `fetch` nativo, sem API key nem autenticação, conforme especificação da Seed).
+- **Cliente centralizado:** `js/api.js`, com `fetch` nativo, sem API key nem autenticação, conforme a especificação da Seed. Ele expõe as funções de `GET`, `POST`, `PATCH` e `DELETE`, e o nome do squad fica em uma única constante.
 - **Aviso de privacidade:** os dados da API de teste são públicos. Utilize apenas **nomes e dados fictícios**.
+- **Segurança:** textos vindos da API são tratados com `escapeHtml` antes de aparecerem na página, evitando injeção de código.
+- **Erros:** as chamadas usam `try/catch` e exibem mensagens amigáveis ao usuário.
+
+### Como a integração funciona (exemplo: pedir uma mentoria)
+
+1. A pessoa preenche o formulário em **Pedir Mentoria**.
+2. O JavaScript envia um `POST /api/bussolab/requisicoes` com os dados em JSON.
+3. A API grava o registro e devolve o objeto criado, com `id` e `createdAt` gerados pelo servidor.
+4. A tela chama `GET /api/bussolab/requisicoes` e **atualiza a lista automaticamente**, sem recarregar a página.
+5. Na tela **Mentorias**, o mentor vê a mesma requisição (`GET`), filtra e busca em JavaScript (a API não filtra no servidor) e a aceita ou recusa com `PATCH`.
+6. Ao aceitar, os dois conversam no **Chat**: as mensagens são enviadas com `POST` em `mensagens` e listadas com `GET`, filtradas em JavaScript pelo `requisicaoId`.
 
 ### Endpoints Utilizados
 
@@ -84,25 +117,41 @@ O **Bússolab** reúne em um fluxo simples e responsivo:
   "texto": "Olá! Vamos montar seu plano de estudos."
 }
 ```
-*(Os campos `id` e `createdAt` são gerados automaticamente pelo servidor).*
+*(Os campos `id` e `createdAt` são gerados automaticamente pelo servidor.)*
+
+---
+
+## Escopo do MVP
+
+### Decisões de escopo
+O grupo priorizou o núcleo da proposta: **orientar com trilhas e quiz** e **conectar a mentores**. Respeitamos os limites da API (sem login real, sem dados privados por pessoa, sem busca no servidor e sem upload de arquivos). O que dependia disso foi simulado ou ficou como visão de futuro.
+
+| Funcionalidade | Situação |
+|---|---|
+| Quiz de afinidade e resultado com as 3 trilhas recomendadas | **Real**, em JavaScript no navegador |
+| Catálogo de trilhas e progresso | **Real**: dados locais em `js/trilhas-data.js`, progresso no `localStorage` |
+| Pedir mentoria, listar, aceitar/recusar e excluir requisições | **Real**, via API |
+| Cadastro, listagem, edição e remoção de mentores | **Real**, via API |
+| Chat de mentoria (mensagens entre mentor e mentorado) | **Real**, via API (sem tempo real) |
+| Login | **Simulado** |
+| Upload de diplomas e certificados | **Simulado** |
+| Notificações em tempo real e videochamada | **Visão de futuro** |
+| Progresso salvo por conta de usuário | **Visão de futuro** (a API não tem contas) |
+
+### O que é simulado / visão de futuro
+Respeitando as limitações da API genérica do desafio:
+- **Login (`login/index.html`):** simulado localmente via `localStorage`, apenas para exibir o nome fictício no cabeçalho e pré-preencher formulários (não há autenticação nem contas privadas).
+- **Upload de Diplomas/Certificados (`tela_cadastro_mentor/index.html`):** interface demonstrativa que registra apenas o nome dos arquivos em texto (`documentosSimulados`), sem upload binário.
+- **Notificações em tempo real e videochamada integrada:** previstos como visão de futuro.
 
 ---
 
 ## Bônus Implementados
 
-- **`PATCH` e `DELETE`** completos integrados na interface (aceitar/recusar/excluir requisições e remover mentores).
-- **Filtros e busca em tempo real em JavaScript** sobre os dados vindos da API (status e busca textual no painel de mentorias, filtro de mentores por nome/área, busca de conversas no chat e filtro de profissões).
-- **Trilhas e Quiz 100% dinâmicos** cobrindo todas as 8 profissões e 29 sub-áreas.
-- **Responsividade completa** (desktop, tablet e mobile) e escala tipográfica padronizada via variáveis CSS.
-
----
-
-## O que é Simulado / Visão de Futuro
-
-Respeitando as limitações da API genérica do desafio:
-- **Login (`login/index.html`):** simulado localmente via `localStorage` apenas para exibir o nome fictício no cabeçalho e pré-preencher formulários (não há autenticação nem contas privadas).
-- **Upload de Diplomas/Certificados (`tela_cadastro_mentor/index.html`):** interface demonstrativa que registra apenas o nome dos arquivos em texto (`documentosSimulados`), sem upload binário.
-- **Notificações em tempo real e videochamada integrada:** previstos como visão de futuro.
+- **`PATCH` e `DELETE`** integrados na interface (aceitar, recusar e excluir requisições; editar e remover mentores).
+- **Filtros e busca em tempo real em JavaScript** sobre os dados vindos da API (status e busca textual no painel de mentorias, filtro de mentores por nome/área, busca de conversas no chat) e filtro de profissões no catálogo.
+- **Trilhas e quiz gerados em JavaScript** a partir de um catálogo local (`js/trilhas-data.js`) com as 8 profissões e 29 sub-áreas, sem depender da API.
+- **Layout responsivo** para desktop, tablet e mobile, com `meta viewport`, media queries e escala tipográfica padronizada por variáveis CSS.
 
 ---
 
@@ -141,6 +190,7 @@ BussoLab/
 - **CSS3** (Custom Properties, Grid, Flexbox e Media Queries)
 - **JavaScript (ES6+)** com `Fetch API`, `async/await` e `localStorage`
 - **Seed API** (`https://psel-api.vercel.app/api/bussolab/...`)
+- **GitHub Pages** para a publicação
 
 ---
 
@@ -148,7 +198,7 @@ BussoLab/
 
 1. Clone o repositório:
    ```bash
-   git clone <url-do-repositorio>
+   git clone [URL-DO-REPOSITORIO]
    cd BussoLab
    ```
 2. Abra `index.html` com uma extensão como **Live Server** (VS Code) ou execute um servidor local simples:
@@ -162,3 +212,18 @@ BussoLab/
 1. Acesse **Settings → Pages** no repositório do GitHub.
 2. Em **Build and deployment**, selecione **Deploy from a branch**, escolha a branch `main` e a pasta `/ (root)`.
 3. Salve e aguarde a URL pública gerada pelo GitHub Pages.
+4. Cole o link no topo deste README.
+
+---
+
+## Próximos Passos (Visão de Futuro)
+
+- Login e contas reais, para salvar o progresso de cada pessoa.
+- Match automático entre mentorado e mentor por área e disponibilidade.
+- Chat em tempo real, videochamada e notificações.
+- Upload real de diplomas e certificações.
+- Trilhas atualizadas conforme as exigências do mercado.
+
+
+
+Feito para o **PSEL 27.1 (Seed)** 💙
