@@ -7,10 +7,10 @@ Projeto do **PSEL 27.1 (Seed): 2º Desafio, Desenvolvimento do MVP + Apresentaç
 
 | | |
 |---|---|
-| 🌐 **Aplicação publicada (GitHub Pages)** | [COLE AQUI O LINK DO GITHUB PAGES] |
-| 🎨 **Protótipo (Figma)** | [COLE AQUI O LINK DO FIGMA] |
-| 🧩 **Concepção da solução (FigJam)** | [COLE AQUI O LINK DO FIGJAM] |
-| 📓 **Página do Notion (MVP Contract)** | [COLE AQUI O LINK DO NOTION] |
+| 🌐 **Aplicação publicada (GitHub Pages)** | https://joaovictor54.github.io/BussoLab/ |
+| 🎨 **Protótipo (Figma)** | https://www.figma.com/design/0jo5VOdKDO8ndyrSBEDGM8/Prototipa%C3%A7%C3%A3o?node-id=17-872&t=Eo1RmKKLjuzQR5sH-1 |
+| 🧩 **Concepção da solução (FigJam)** | https://www.figma.com/board/re6thoOBuxlL9jghNPtR1c/Concep%C3%A7%C3%A3o?node-id=0-1&t=a0udh3AUVu7yr3wQ-1 |
+| 📓 **Página do Notion (MVP Contract)** | https://app.notion.com/p/B-ssoLab-416b097de4d78001bbbec303465f004a?source=copy_link |
 
 ---
 
@@ -224,16 +224,6 @@ BussoLab/
 - Upload real de diplomas e certificações.
 - Trilhas atualizadas conforme as exigências do mercado.
 
----
 
-## Equipe
-
-| Integrante | Responsabilidades |
-|---|---|
-| [Nome 1] | [ex.: estrutura HTML e telas] |
-| [Nome 2] | [ex.: CSS, responsividade e protótipo] |
-| [Nome 3] | [ex.: integração com a API, quiz e README] |
-
----
 
 Feito para o **PSEL 27.1 (Seed)** 💙
